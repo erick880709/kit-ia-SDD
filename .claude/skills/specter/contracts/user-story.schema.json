@@ -33,6 +33,16 @@
     "open_questions": { "$ref": "#/$defs/stringList" },
     "priority": { "$ref": "#/$defs/priority" },
     "points": { "$ref": "#/$defs/points" },
+    "functional_complexity": {
+      "description": "Complejidad funcional orientativa (baja/media/alta). Specter NO estima Story Points; Cupido es responsable de la estimación oficial.",
+      "enum": ["baja", "media", "alta"]
+    },
+    "technical_complexity": {
+      "description": "Complejidad técnica orientativa (baja/media/alta).",
+      "enum": ["baja", "media", "alta"]
+    },
+    "risk_factors": { "$ref": "#/$defs/stringList" },
+    "uncertainties": { "$ref": "#/$defs/stringList" },
     "status": { "$ref": "#/$defs/status" },
     "quality_score": { "$ref": "#/$defs/score" },
     "schema_version": { "const": "0.1.0" },
@@ -116,6 +126,11 @@
       "required": ["id"],
       "properties": {
         "id": { "$ref": "#/$defs/id" },
+        "type": {
+          "description": "Tipo del criterio. functional/security/performance/usability/other.",
+          "enum": ["functional", "security", "performance", "usability", "other"]
+        },
+        "description": { "$ref": "#/$defs/text" },
         "scenario": { "$ref": "#/$defs/text" },
         "given": { "$ref": "#/$defs/text" },
         "when": { "$ref": "#/$defs/text" },

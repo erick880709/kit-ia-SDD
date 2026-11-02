@@ -26,6 +26,7 @@ function readyHu(overrides = {}) {
     dependencies: [],
     priority: "Alta",
     points: 5,
+    functional_complexity: "media",
     ...overrides,
   };
 }
@@ -42,6 +43,7 @@ function readyTt(overrides = {}) {
     created_at: "2026-11-02T15:00:00Z",
     updated_at: "2026-11-02T15:00:00Z",
     technical_objective: "Crear la tabla users con las columnas mínimas para el login.",
+    implementation_scope: "Crear el esquema de la tabla users en la base de datos.",
     implementation_steps: ["Escribir la migración", "Aplicar en non-prod"],
     definition_of_done: ["La migración aplica y revierte sin errores"],
     test_strategy: "Prueba de idempotencia y rollback.",
@@ -104,6 +106,21 @@ test("TT sin component → NEEDS_REFINEMENT", () => {
   const r = validate("technical_task", readyTt({ component: null }));
   assert.equal(r.state, "NEEDS_REFINEMENT");
   assert.ok(r.rules.find(x => x.id === "tt_impl_component" && !x.passed));
+});
+
+test("HU con points 13 ya no se bloquea (Specter no estima Story Points)", () => {
+  const r = validate("user_story", readyHu({ points: 13 }));
+  assert.equal(r.state, "READY");
+});
+
+test("HU sin points alcanza READY con complejidad orientativa", () => {
+  const r = validate("user_story", readyHu({ points: undefined }));
+  assert.equal(r.state, "READY");
+});
+
+test("HU sin functional_complexity → NEEDS_REFINEMENT", () => {
+  const r = validate("user_story", readyHu({ functional_complexity: undefined }));
+  assert.equal(r.state, "NEEDS_REFINEMENT");
 });
 
 test("determinismo: mismos artefactos producen el mismo resultado", () => {

@@ -1,0 +1,103 @@
+{
+  "id": "historias-similares-distintas",
+  "name": "Historias similares pero diferentes",
+  "description": "Dos HU legítimamente distintas no son duplicadas.",
+  "input": {
+    "epic": "Movimientos."
+  },
+  "requirements": [
+    "RF-012"
+  ],
+  "ambiguities": [],
+  "duplicates_injected": 0,
+  "artifacts": [
+    {
+      "kind": "user_story",
+      "id": "HU-15a",
+      "expected_state": "READY",
+      "data": {
+        "id": "HU-15a",
+        "type": "Historia de Usuario",
+        "title": "Consultar movimientos",
+        "status": "ready",
+        "schema_version": "0.1.0",
+        "artifact_version": "1",
+        "created_at": "2026-11-02T15:00:00Z",
+        "updated_at": "2026-11-02T15:00:00Z",
+        "business_value": "Permite al usuario completar el flujo principal de forma segura.",
+        "user_story": {
+          "role": "usuario",
+          "action": "usar la funcionalidad",
+          "benefit": "lograr su objetivo"
+        },
+        "scope": {
+          "included": [
+            "alcance"
+          ],
+          "excluded": []
+        },
+        "acceptance_criteria": [
+          {
+            "id": "CA1",
+            "scenario": "Dado un contexto, cuando actúa, entonces observa el resultado.",
+            "negative": false
+          }
+        ],
+        "main_flow": [
+          "Paso 1"
+        ],
+        "requirement_ids": [
+          "RF-012"
+        ],
+        "dependencies": [],
+        "priority": "Media",
+        "points": 5,
+        "functional_complexity": "media"
+      }
+    },
+    {
+      "kind": "user_story",
+      "id": "HU-15b",
+      "expected_state": "READY",
+      "data": {
+        "id": "HU-15b",
+        "type": "Historia de Usuario",
+        "title": "Exportar movimientos",
+        "status": "ready",
+        "schema_version": "0.1.0",
+        "artifact_version": "1",
+        "created_at": "2026-11-02T15:00:00Z",
+        "updated_at": "2026-11-02T15:00:00Z",
+        "business_value": "Permite al usuario completar el flujo principal de forma segura.",
+        "user_story": {
+          "role": "usuario",
+          "action": "usar la funcionalidad",
+          "benefit": "lograr su objetivo"
+        },
+        "scope": {
+          "included": [
+            "alcance"
+          ],
+          "excluded": []
+        },
+        "acceptance_criteria": [
+          {
+            "id": "CA1",
+            "scenario": "Dado un contexto, cuando actúa, entonces observa el resultado.",
+            "negative": false
+          }
+        ],
+        "main_flow": [
+          "Paso 1"
+        ],
+        "requirement_ids": [
+          "RF-012"
+        ],
+        "dependencies": [],
+        "priority": "Media",
+        "points": 5,
+        "functional_complexity": "media"
+      }
+    }
+  ]
+}

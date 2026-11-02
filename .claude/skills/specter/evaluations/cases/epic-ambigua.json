@@ -53,6 +53,7 @@
         "dependencies": [],
         "priority": "Media",
         "points": 5,
+        "functional_complexity": "media",
         "open_questions": [
           "spring-boot: ¿qué versión de Spring Boot se requiere?"
         ]

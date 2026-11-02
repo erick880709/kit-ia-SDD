@@ -81,7 +81,7 @@ test("requisito sin HU se detecta con --req-ids", () => {
   try {
     writeFileSync(join(root, "resources", "functional", "hu", "hu-01.md"), md(hu("HU-01", ["RF-001"])));
     const r = run(root, ["--req-ids", "RF-001,RF-002"]);
-    assert.equal(r.status, 0); // sin críticos, pero hay hallazgo high
+    assert.equal(r.status, 1); // hallazgo high (requisito sin HU)
     const out = JSON.parse(r.stdout);
     assert.ok(out.findings.some(f => f.severity === "high" && f.kind === "requisito sin HU" && f.id === "RF-002"));
   } finally {

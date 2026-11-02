@@ -1,0 +1,47 @@
+{
+  "id": "tt-sin-padre-justificada",
+  "name": "TT sin HU padre justificada",
+  "description": "TT habilitadora de épica con parent_exception_reason: lista.",
+  "input": {
+    "epic": "Habilitar observabilidad."
+  },
+  "requirements": [],
+  "ambiguities": [],
+  "duplicates_injected": 0,
+  "artifacts": [
+    {
+      "kind": "technical_task",
+      "id": "TT-11",
+      "expected_state": "READY",
+      "data": {
+        "id": "TT-11",
+        "type": "Tarea Técnica",
+        "title": "Habilitar observabilidad base",
+        "parent_hu_id": null,
+        "status": "ready",
+        "schema_version": "0.1.0",
+        "artifact_version": "1",
+        "created_at": "2026-11-02T15:00:00Z",
+        "updated_at": "2026-11-02T15:00:00Z",
+        "technical_objective": "Implementar la capacidad técnica descrita en la tarea.",
+        "implementation_scope": "Alcance acotado de la tarea técnica.",
+        "implementation_steps": [
+          "Paso 1"
+        ],
+        "definition_of_done": [
+          "Criterio verificable con detalle"
+        ],
+        "test_strategy": "Pruebas",
+        "evidence_requirements": [
+          "Evidencia"
+        ],
+        "component": "backend",
+        "architecture_layer": "api",
+        "dependencies": [],
+        "epic": "PROJ-42",
+        "epic_id": "PROJ-42",
+        "parent_exception_reason": "Habilitador transversal de la épica."
+      }
+    }
+  ]
+}
