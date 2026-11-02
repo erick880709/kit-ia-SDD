@@ -21,12 +21,13 @@ mantienen en inglés cuando así lo usa la industria).
 3. [Cómo ejecutar una skill](#3-cómo-ejecutar-una-skill)
 4. [El pipeline](#4-el-pipeline)
 5. [Catálogo de skills](#5-catálogo-de-skills)
-6. [Flujo paso a paso](#6-flujo-paso-a-paso)
-7. [Convenciones de `resources/`](#7-convenciones-de-resources)
-8. [Integraciones MCP](#8-integraciones-mcp)
-9. [Validar el kit](#9-validar-el-kit)
-10. [Memoria del proyecto](#10-memoria-del-proyecto)
-11. [Documentación adicional](#11-documentación-adicional)
+6. [Agentes del kit](#6-agentes-del-kit)
+7. [Flujo paso a paso](#7-flujo-paso-a-paso)
+8. [Convenciones de `resources/`](#8-convenciones-de-resources)
+9. [Integraciones MCP](#9-integraciones-mcp)
+10. [Validar el kit](#10-validar-el-kit)
+11. [Memoria del proyecto](#11-memoria-del-proyecto)
+12. [Documentación adicional](#12-documentación-adicional)
 
 ---
 
@@ -38,7 +39,7 @@ mantienen en inglés cuando así lo usa la industria).
 | Node.js 22 o posterior | Validadores del contrato QA, reportes de ejecución y pruebas del kit | Para QA y para validar el kit |
 | Python 3.10+ (3.11+ para Builder) | Scripts de `archi`, `builder`, `code-review`, `takumi`, `cupido` y las skills QA | Según la skill |
 | Herramientas del stack destino (JDK, Gradle/Maven, Node, Go, Angular CLI, navegadores…) | Compilar y ejecutar las pruebas del proyecto | Para `builder`, `code-review` y QA |
-| Servidores MCP (Jira, Azure DevOps, SonarQube, draw.io, Excalidraw) | Integraciones opcionales; ver [§8](#8-integraciones-mcp) | No |
+| Servidores MCP (Jira, Azure DevOps, SonarQube, draw.io, Excalidraw) | Integraciones opcionales; ver [§9](#9-integraciones-mcp) | No |
 
 El proyecto **destino** puede ser de cualquier lenguaje o stack: las skills detectan
 el ecosistema real del repositorio en vez de asumir uno.
@@ -64,7 +65,7 @@ Para la familia QA, copia también el hook de `.claude/settings.json` que valida
 resultados al terminar cada turno (ver la [guía QA](.claude/doc/ranger/README.md)).
 Para memoria del proyecto, ejecuta en el destino
 `node .claude/skills/memoria/scripts/memoria.mjs init` (crea `.memoria/`, enlaza el hook
-de Stop y copia el workflow de GitHub; ver [§10](#10-memoria-del-proyecto)).
+de Stop y copia el workflow de GitHub; ver [§11](#11-memoria-del-proyecto)).
 Para instalar solo Builder en otro proyecto, usa su instalador
 (`scripts/install_builder.py`, ver [su README](.claude/skills/builder/README.md#11-instalar-en-otro-proyecto)).
 
@@ -78,7 +79,7 @@ Abre Claude Code en la raíz del repositorio destino y usa cualquiera de estas f
 |---|---|---|
 | **Comando con barra** | `/builder implementa PROJ-123` | Sabes qué skill quieres |
 | **Lenguaje natural** | *"extrae los requerimientos de esta RFP"* | Cada skill declara en su `SKILL.md` cuándo se activa sola |
-| **Agente** | Elegir el agente `archi`, `builder`, `iris`… en el selector | Sesión dedicada a un rol (ver `.claude/agents/`) |
+| **Agente** | Elegir el agente `archi`, `builder`, `iris`, `sofia`… en el selector | Sesión dedicada a un rol; el agente carga la skill canónica y aplica sus límites (ver [§6](#6-agentes-del-kit)) |
 | **Sin saber por dónde empezar** | `/sofia necesito estimar y construir un módulo de pagos` | Sofía te orienta y deriva al especialista |
 
 Reglas útiles:
@@ -148,6 +149,7 @@ la fuente de verdad si algo de este README no coincide.
 | `archi` | Diseña, documenta o audita arquitectura. **Caso A** greenfield, **Caso B** AS-IS de código existente y **Caso C** TO-BE con brechas y roadmap. Exige el gate de dominio DR-01 en los casos A y C | Spec `.md`, requerimientos `RNF`/`RT`/`RD`, HU de `specter` y/o un repositorio existente | Set numerado en `resources/architecture/` (`00-Documento_Arquitectura_<Proyecto>.md` a `26-Validacion-y-Aprobacion.md`): C4, secuencias y modelo de datos en Mermaid, despliegue en `.drawio` con íconos oficiales, comparativo multi-nube con costos si no hay proveedor, ADRs, riesgos y presentación HTML para comité | `/archi propone la arquitectura desde resources/functional/reqs/001-*.md` |
 | `iris` | Diseña la arquitectura de UX: flujos, arquitectura de información, pantallas, wireframes, trazabilidad requisito → UI y el sistema de diseño del proyecto | Requisitos, HU, criterios, procesos, EventStorming, APIs, pantallas o capturas | `resources/design/ux/<proyecto>/` en `01-context/`, `02-ui-architecture/`, `03-design-system/`, `04-ux-review/`, `05-validation/` y `06-prototype/` | `/iris diseña la UX del onboarding desde las HU` |
 | `solution-baseline` | Materializa una arquitectura aprobada en repositorios base reproducibles (frontends, APIs, workers, agentes). Modos `create`, `reconcile`, `upgrade` y `archetype-create` | Arquitectura aprobada de `archi` y el repositorio destino (vacío o con código) | El repositorio inicializado o reconciliado, `.solution-baseline/receipt.yaml` y el handoff para Vulcano | `/solution-baseline crea la línea base de la API de pagos` |
+| `dba` | Arquitecto de datos y DBA: diseño o revisión de modelos de datos, elección de motor (relacional y no relacional), migraciones, índices y `EXPLAIN`, procedimientos, transacciones, particionado, replicación, backup/PITR, HA/DR y migración entre motores | Modelo o requerimiento de datos, una consulta, un `EXPLAIN`, un cambio de persistencia o un plan de migración | Modelo documentado, migraciones revisadas, plan de tuning o de migración con justificación del motor | `/dba revisa el modelo y los índices de la tabla de pedidos` |
 
 ### 5.3 Construcción y revisión
 
@@ -243,7 +245,10 @@ pipelines; `code-review` la revisa y `aegis` audita su seguridad.
 | `cronos` | Presentaciones HTML con marca PersonalSoft o en modo libre; propone la estructura antes de escribir y exporta a PPTX o PDF bajo pedido | Tema, contenido o resultados a presentar | `resources/presentations/<nombre>.html` | `/cronos presentación de resultados del sprint` |
 | `memoria` (`/memoria`) | Memoria y contexto del proyecto como grafo de conocimiento en `.memoria/`: cada skill registra un nodo de avance al terminar, con CLI, hook de Stop y workflow de GitHub | Estado del proyecto o una tarea terminada | Nodos en `.memoria/graph.json` e índice `.memoria/index.md` | `/memoria query --type decision` |
 | `obsidian` (`/obsidian`) | Puente a Obsidian: notas con Obsidian Flavored Markdown (wikilinks, embeds, callouts, properties), JSON Canvas y configuración del MCP; exporta la memoria `.memoria/` como vault navegable y grafo visual | `.memoria/graph.json` o un vault de Obsidian | Vault con `Inicio.md`, `notas/*.md` y `Memoria.canvas`; MCP de Obsidian configurado | `/obsidian exporta la memoria al vault y valida el canvas` |
-| `docx`, `pdf`, `pptx`, `xlsx` | Leer, crear y editar documentos de oficina; las usan otras skills como soporte | Archivo existente o contenido | El archivo en su formato | *"convierte este informe a Word"* |
+| `docx` | Crear, leer, editar y manipular documentos de Word (índices, encabezados, tablas, estilos, control de cambios) | Documento `.docx` existente o contenido a documentar | Documento `.docx` formateado | *"genera el informe ejecutivo en Word"* |
+| `pdf` | Leer, extraer, combinar, dividir, rotar, marcar, rellenar formularios, cifrar y hacer OCR de PDF | Archivo `.pdf` o contenido a convertir | PDF procesado o texto/tablas extraídos | *"extrae las tablas de este PDF"* |
+| `pptx` | Crear, leer, editar y combinar presentaciones (diapositivas, layouts, notas, orador) | Presentación `.pptx` existente o contenido a presentar | Deck `.pptx` | *"arma el deck de resultados del sprint"* |
+| `xlsx` | Leer, crear, editar y limpiar hojas de cálculo (fórmulas, tablas dinámicas, gráficos, formatos) | `.xlsx`, `.csv` o `.tsv` existente o datos tabulares | Libro `.xlsx` calculado y formateado | *"consolida estos CSV en un Excel con fórmulas"* |
 
 Para identidad visual y estilo editorial, aplica las plantillas, activos e
 instrucciones que entregue el usuario; los valores predeterminados del kit no
@@ -251,7 +256,68 @@ acreditan una política corporativa aprobada.
 
 ---
 
-## 6. Flujo paso a paso
+## 6. Agentes del kit
+
+Además de invocar las skills por nombre (`/builder …`), el kit trae **16 agentes** en
+`.claude/agents/` (con espejo delgado en `.github/agents/` para Copilot). Cada agente es una
+identidad de rol que **carga la skill canónica** declarada en su frontmatter `skills:` y
+aplica sus límites; no es una segunda implementación de la skill.
+
+**Cómo usarlos:** elige el agente en el selector de Claude Code (o de Copilot) o pídelo en
+lenguaje natural (*"usa el agente builder para…"*). El agente lee su `.agent.md`, carga la
+skill indicada y trabaja solo en su dominio.
+
+### 6.1 Entrada directa (una skill canónica)
+
+| Agente | Skill que carga | Cuándo usarlo |
+|---|---|---|
+| `sofia` | `sofia` (carpeta `executive-routing`) | No sabes con qué especialista empezar: orienta, resuelve dudas y deriva al agente dueño del dominio |
+| `archi` | `archi` | Diseñar, documentar o auditar arquitectura de sistema |
+| `iris` | `iris` | Diseñar la arquitectura UX y el sistema de diseño |
+| `storming` | `storming` | Descubrir y modelar el dominio (Event Storming) |
+| `takumi` | `takumi` | Levantar, documentar y mejorar procesos de negocio |
+| `builder` | `builder` | Implementar, explorar, planificar o depurar cambios de aplicación |
+| `memoria` | `memoria` | Mantener la memoria y el contexto del proyecto como grafo en `.memoria/` |
+
+### 6.2 Célula de Solution Baseline
+
+Un orquestador y cuatro especialistas materializan una arquitectura aprobada con ownership,
+leases y validación independiente. Para una baseline simple puedes invocar la skill
+`solution-baseline` directamente sin levantar la célula.
+
+| Agente | Skill que carga | Rol |
+|---|---|---|
+| `solution-baseline-orchestrator` | `solution-baseline` | Coordina discovery, DAG, arquetipos, writers y cierre multi-repositorio |
+| `architecture-mapper` | `solution-baseline` | Descubrimiento read-only de arquitectura, drift y brechas |
+| `archetype-curator` | `solution-baseline` | Crea o evoluciona arquetipos reutilizables gobernados |
+| `repository-baseline-worker` | `solution-baseline` | Materializa `create`/`reconcile`/`upgrade` en un repositorio o zona con lease |
+| `baseline-validator` | `solution-baseline` | Validación independiente de contratos, procedencia y calidad |
+
+### 6.3 Familia Vulcano (DevSecOps / IaC)
+
+| Agente | Skill que carga | Rol |
+|---|---|---|
+| `vulcano` | `vulcano` | Define la estrategia DevSecOps, IaC y observabilidad (solo documenta) |
+| `vulcano-bob` | `vulcano-bob` | Materializa y valida localmente la IaC y el CI/CD definidos |
+| `vulcano-orchestrator` | — (coordina agentes) | Orquesta `vulcano` → `vulcano-bob`, valida gates y prepara el handoff |
+| `vulcano-operador` | `vulcano-operador` | Ejecuta y verifica una operación remota autorizada por acción |
+
+### 6.4 Skills sin agente dedicado
+
+Se invocan directamente por su `name` canónico (`/…` o lenguaje natural): `janus`,
+`epicureo`, `specter`, `effort-estimator` (`cupido`), `code-review`, `aegis`, `dba`,
+`ranger` y la familia `qa-ranger-*`, `terragrunt-iac`, `cronos`, `obsidian` y las skills de
+formato `docx`/`pdf`/`pptx`/`xlsx`. Que no tengan agente no significa que estén incompletas:
+son capacidades que se consumen como skill.
+
+El inventario completo con límites y handoffs está en
+[`.claude/doc/catalogo-agentes.md`](.claude/doc/catalogo-agentes.md) y la matriz de
+intención → skill → agente en
+[`.claude/doc/matriz-enrutamiento-y-handoffs.md`](.claude/doc/matriz-enrutamiento-y-handoffs.md).
+
+---
+
+## 7. Flujo paso a paso
 
 ### Camino largo: llega una RFP
 
@@ -289,7 +355,7 @@ amerita, `/code-review` y `/ranger` después.
 
 ---
 
-## 7. Convenciones de `resources/`
+## 8. Convenciones de `resources/`
 
 `resources/` es estado compartido, no un borrador: un archivo que ya existe ahí es
 entrada para la siguiente etapa, no una salida descartable.
@@ -328,7 +394,7 @@ en el código fuente del proyecto.
 
 ---
 
-## 8. Integraciones MCP
+## 9. Integraciones MCP
 
 Todas son opcionales. Sin ellas, las skills trabajan con los archivos de `resources/`.
 Las credenciales van siempre en variables de entorno, nunca en el repositorio.
@@ -346,7 +412,7 @@ necesita reiniciar el cliente para que sus herramientas aparezcan.
 
 ---
 
-## 9. Validar el kit
+## 10. Validar el kit
 
 Desde la raíz del kit:
 
@@ -377,7 +443,7 @@ demuestra que una skill funcione: hay que medir sus decisiones en proyectos aisl
 
 ---
 
-## 10. Memoria del proyecto
+## 11. Memoria del proyecto
 
 La skill **`memoria`** mantiene la memoria y el contexto de cualquier proyecto como un
 **grafo de conocimiento** persistente en `.memoria/`, rastreable en git y sin base de datos.
@@ -415,7 +481,7 @@ operaciones completas.
 
 ---
 
-## 11. Documentación adicional
+## 12. Documentación adicional
 
 | Tema | Dónde |
 |---|---|

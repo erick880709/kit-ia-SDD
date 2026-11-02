@@ -1,6 +1,6 @@
 # Matriz de enrutamiento y handoffs
 
-Esta matriz describe una ruta operable con los skills y agentes realmente instalados. No existe un router general en `.claude/agents/`: la secuencia es una guía para la sesión llamadora. Solution Baseline tiene su propio orquestador; Archi, Builder, Iris, Sofía, Storming y Takumi son agentes directos; y Vulcano dispone de un orquestador limitado a definición y generación local.
+Esta matriz describe una ruta operable con los skills y agentes realmente instalados. No existe un router general en `.claude/agents/`: la secuencia es una guía para la sesión llamadora. Solution Baseline tiene su propio orquestador; Archi, Builder, Iris, Sofía, Storming, Takumi y Memoria son agentes directos; y Vulcano dispone de un orquestador limitado a definición y generación local.
 
 ## Flujo de referencia
 
@@ -33,11 +33,13 @@ No todos los proyectos comienzan con una RFP ni requieren todos los pasos. Los g
 | Intención | Skill canónica | Agente coordinador disponible | Precondición mínima | Handoff principal |
 |---|---|---|---|---|
 | Orientarse o resolver una duda general | `sofia` (carpeta `executive-routing`) | `sofia` | Ninguna | La skill o el agente dueño del dominio, en voz alta |
+| Mantener o consultar la memoria del proyecto | `memoria` | `memoria` | `.memoria/` inicializado o poder crearlo | Grafo de conocimiento actualizado; deriva a `epicureo`/`specter`/`archi`/`builder` solo si se trabaja sobre lo recordado |
 | Extraer requisitos de RFP | `janus` | Sin agente dedicado; invocación directa | Documento fuente accesible | `epicureo`, `archi`, `iris` o `takumi` según contenido |
 | Reducir ambigüedad de una necesidad | `epicureo` | Sin agente dedicado | Necesidad o requisitos de entrada | `storming`, `archi`, `specter` o `effort-estimator` |
 | Modelar dominio complejo | `storming` | `storming` | Propósito, alcance, fuentes y participantes conocidos | `archi`, `specter`, `iris` o `ranger` |
 | Diseñar arquitectura de sistema | `archi` | `archi` | Gate DR-01 satisfecho mediante EventStorming, paquete equivalente o excepción justificada | `solution-baseline`, `iris` y/o `vulcano` |
 | Diseñar arquitectura UX y entregar el sistema de diseño | `iris` | `iris` | Requisitos, procesos, dominio, APIs o evidencia de UI; para el sistema de diseño, evidencia de marca del proyecto | `solution-baseline` (tokens, catálogo y assets congelados) y `builder` |
+| Diseñar o revisar datos, persistencia o migraciones | `dba` | Sin agente dedicado | Modelo, requerimiento de datos o consulta a revisar | Modelo/migración revisado o plan de tuning; informa a `archi` si cambia el modelo TO-BE |
 | Desglosar épica en Jira | `specter` | Sin agente dedicado; Jira por MCP opcional, Markdown siempre disponible | Épica accesible y suficientemente refinada | HU/TT con contrato y Quality Gate (READY/NEEDS_REFINEMENT/BLOCKED); `builder`, `ranger`, `effort-estimator` |
 | Estimar esfuerzo/costo | `effort-estimator` | Sin agente dedicado | Épica refinada o backlog | Propuesta y planificación |
 | Materializar aplicaciones | `solution-baseline` | `solution-baseline-orchestrator` y su célula | Arquitectura aprobada, decisiones materiales cerradas y repositorios identificados | Desarrollo y requisitos para Vulcano |
@@ -53,6 +55,8 @@ No todos los proyectos comienzan con una RFP ni requieren todos los pasos. Los g
 | Carga y rendimiento con JMeter | `qa-ranger-jmeter` | Sesión actual o instancia permitida por el host | Ambiente autorizado, carga objetivo y SLA acordados | Plan `.jmx`, resultados JTL y gate de SLA |
 | Unitarias y cobertura | `qa-ranger-unitarias` | Sesión actual o instancia permitida por el host | Unidad, requisitos, runner del stack y evidencia resuelta | Pruebas y cobertura verificadas, o diagnóstico con pendientes |
 | Presentar resultados o una propuesta | `cronos` | Sin agente dedicado | Contenido o resultados a presentar | Presentación HTML; PPTX o PDF bajo pedido |
+| Trabajar con un vault de Obsidian o ver la memoria como grafo | `obsidian` | Sin agente dedicado | Vault de Obsidian o `.memoria/graph.json` | Vault con notas y `Memoria.canvas`; MCP de Obsidian configurado. Se apoya en `memoria` y, si está disponible, en `graphify` |
+| Leer, crear o editar documentos de oficina | `docx`/`pdf`/`pptx`/`xlsx` | Sin agente dedicado; soporte para otras skills | Archivo existente o contenido | El archivo en su formato |
 | Documentar procesos de negocio | `takumi` | `takumi` | Fuentes o entrevistas | Mejora de procesos, `epicureo`, `storming` o automatización posterior |
 | Generar, revisar o migrar IaC con Terragrunt y sus pipelines | `terragrunt-iac` | Sin agente dedicado | Necesidad de infraestructura, arquitectura aprobada o repositorio Terragrunt existente | `code-review` para la revisión y `aegis` (`iac`/`pipeline`) para la seguridad |
 | Diseñar DevOps/IaC/observabilidad | `vulcano` | `vulcano` o `vulcano-orchestrator` para flujo completo | Arquitectura y evidencia real del repositorio | `vulcano-bob` |

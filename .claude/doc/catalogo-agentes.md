@@ -1,6 +1,6 @@
 # Catálogo reconciliado de agentes
 
-Inventario de los 15 archivos `.claude/agents/*.agent.md` presentes al 27 de octubre de 2026, incluidos `iris` (entrada directa a la skill homónima) y `sofia` (entrada directa a la skill `sofia`, carpeta `executive-routing`). Un nombre conservado en Git, documentación o prompts no se considera instalado si su archivo top-level no existe en el working tree.
+Inventario de los 16 archivos `.claude/agents/*.agent.md` presentes, incluidos `iris`, `sofia` y `memoria` (entradas directas a sus skills homónimas; `sofia` vive en la carpeta `executive-routing`). Un nombre conservado en Git, documentación o prompts no se considera instalado si su archivo top-level no existe en el working tree.
 
 ## Agentes disponibles
 
@@ -14,6 +14,7 @@ Inventario de los 15 archivos `.claude/agents/*.agent.md` presentes al 27 de oct
 | [`builder.agent.md`](../agents/builder.agent.md) / `builder` | Implementar, explorar, planificar, depurar o reanudar cambios concretos de aplicación | Sí, dentro del alcance autorizado | `builder` |
 | [`iris.agent.md`](../agents/iris.agent.md) / `iris` | Diseñar arquitectura UX y entregar el sistema de diseño del proyecto listo para construir | Sí, solo artefactos de UX y sistema de diseño | `iris` |
 | [`sofia.agent.md`](../agents/sofia.agent.md) / `sofia` | Conversar con criterio ejecutivo, resolver dudas y documentos de apoyo, y derivar al especialista cuando el encargo es un entregable de dominio | Sí, solo documentos de apoyo | `sofia` (carpeta `executive-routing`) |
+| [`memoria.agent.md`](../agents/memoria.agent.md) / `memoria` | Mantener la memoria y el contexto del proyecto como grafo de conocimiento en `.memoria/` | Sí, solo `.memoria/` | `memoria` |
 | [`solution-baseline-orchestrator.agent.md`](../agents/solution-baseline-orchestrator.agent.md) / `solution-baseline-orchestrator` | Coordinar discovery, DAG, arquetipos, writers, validación y cierre multi-repositorio | Único writer del run manifest | `solution-baseline` |
 | [`storming.agent.md`](../agents/storming.agent.md) / `storming` | Facilitar Event Storming y documentar el comportamiento del dominio | Sí, solo artefactos Event Storming | `storming` |
 | [`takumi.agent.md`](../agents/takumi.agent.md) / `takumi` | Caracterizar, documentar y mejorar procesos de negocio | Sí, bajo `resources/procesos/` | `takumi` |
@@ -24,7 +25,7 @@ Inventario de los 15 archivos `.claude/agents/*.agent.md` presentes al 27 de oct
 
 ## Propuesta materializada: agentes de entrada directa
 
-`archi`, `builder`, `iris`, `sofia`, `storming` y `takumi` son agentes delgados, invocables por el usuario, que cargan una única skill canónica. Añaden una identidad estable, un conjunto mínimo de herramientas y límites de salida; no duplican el proceso de la skill ni coordinan subagentes.
+`archi`, `builder`, `iris`, `sofia`, `storming`, `takumi` y `memoria` son agentes delgados, invocables por el usuario, que cargan una única skill canónica. Añaden una identidad estable, un conjunto mínimo de herramientas y límites de salida; no duplican el proceso de la skill ni coordinan subagentes.
 
 | Agente | Por qué existe | Límite que protege | Handoff típico |
 |---|---|---|---|
@@ -32,6 +33,7 @@ Inventario de los 15 archivos `.claude/agents/*.agent.md` presentes al 27 de oct
 | `storming` | Da una entrada explícita al descubrimiento de dominio y a su validación con expertos. | No convierte el modelo de dominio en arquitectura, backlog o código. | `archi`, `specter`, `iris` o `ranger`, informado para decisión del usuario. |
 | `archi` | Mantiene en una sesión especializada los escenarios A/B/C, DR-01, los artefactos y los gates arquitectónicos. | No ejecuta otras skills, no implementa la solución y no autoaprueba decisiones. | `solution-baseline`, `iris` o `vulcano` después de aprobación. |
 | `sofia` | Ofrece un punto de entrada cuando el usuario no sabe con qué especialista empezar. | No ejecuta el trabajo de un dominio especializado ni inventa su alcance. | El agente o la skill dueña del dominio (`archi`, `builder`, `ranger`, `effort-estimator`, `epicureo`…), en voz alta. |
+| `memoria` | Da una entrada explícita al custodio del grafo de conocimiento, para registrar avances, decisiones y tareas sin mezclarlos con el código. | No convierte la memoria en arquitectura, backlog ni documentación funcional. | `epicureo`, `specter`, `archi` o `builder` solo cuando el usuario pida trabajar sobre el contenido recordado. |
 | `takumi` | Separa procesos organizacionales y evidencia operacional del modelado de software. | No inventa hechos ni transforma automáticamente procesos en bounded contexts o automatizaciones. | `epicureo`, `storming` o `archi` cuando el análisis lo justifica. |
 
 La familia Vulcano usa tres agentes de fase y un orquestador opcional. Las etapas permanecen separadas porque tienen permisos y criterios de entrada incompatibles entre sí:
