@@ -1,0 +1,59 @@
+{
+  "id": "requisitos-sin-rnf",
+  "name": "Requerimientos sin RNF",
+  "description": "Sin RNF: no se inventan referencias; nfr_references queda vacío y la HU sigue lista.",
+  "input": {
+    "epic": "CRUD de productos."
+  },
+  "requirements": [
+    "RF-005"
+  ],
+  "ambiguities": [],
+  "duplicates_injected": 0,
+  "artifacts": [
+    {
+      "kind": "user_story",
+      "id": "HU-04",
+      "expected_state": "READY",
+      "data": {
+        "id": "HU-04",
+        "type": "Historia de Usuario",
+        "title": "Crear producto",
+        "status": "ready",
+        "schema_version": "0.1.0",
+        "artifact_version": "1",
+        "created_at": "2026-11-02T15:00:00Z",
+        "updated_at": "2026-11-02T15:00:00Z",
+        "business_value": "Valor de negocio.",
+        "user_story": {
+          "role": "usuario",
+          "action": "usar la funcionalidad",
+          "benefit": "lograr su objetivo"
+        },
+        "scope": {
+          "included": [
+            "alcance"
+          ],
+          "excluded": []
+        },
+        "acceptance_criteria": [
+          {
+            "id": "CA1",
+            "scenario": "Dado un contexto, cuando actúa, entonces observa el resultado.",
+            "negative": false
+          }
+        ],
+        "main_flow": [
+          "Paso 1"
+        ],
+        "requirement_ids": [
+          "RF-005"
+        ],
+        "dependencies": [],
+        "priority": "Media",
+        "points": 5,
+        "nfr_references": []
+      }
+    }
+  ]
+}

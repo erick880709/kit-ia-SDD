@@ -1,0 +1,62 @@
+{
+  "id": "epic-ambigua",
+  "name": "Épica ambigua",
+  "description": "Tecnología sin versión se registra como pregunta abierta; la HU queda incompleta.",
+  "input": {
+    "epic": "El sistema debe usar Spring Boot para la autenticación."
+  },
+  "requirements": [
+    "RF-003"
+  ],
+  "ambiguities": [
+    "spring-boot"
+  ],
+  "duplicates_injected": 0,
+  "artifacts": [
+    {
+      "kind": "user_story",
+      "id": "HU-02",
+      "expected_state": "NEEDS_REFINEMENT",
+      "data": {
+        "id": "HU-02",
+        "type": "Historia de Usuario",
+        "title": "Autenticar con Spring Boot",
+        "status": "ready",
+        "schema_version": "0.1.0",
+        "artifact_version": "1",
+        "created_at": "2026-11-02T15:00:00Z",
+        "updated_at": "2026-11-02T15:00:00Z",
+        "user_story": {
+          "role": "usuario",
+          "action": "usar la funcionalidad",
+          "benefit": "lograr su objetivo"
+        },
+        "scope": {
+          "included": [
+            "alcance"
+          ],
+          "excluded": []
+        },
+        "acceptance_criteria": [
+          {
+            "id": "CA1",
+            "scenario": "Dado un contexto, cuando actúa, entonces observa el resultado.",
+            "negative": false
+          }
+        ],
+        "main_flow": [
+          "Paso 1"
+        ],
+        "requirement_ids": [
+          "RF-003"
+        ],
+        "dependencies": [],
+        "priority": "Media",
+        "points": 5,
+        "open_questions": [
+          "spring-boot: ¿qué versión de Spring Boot se requiere?"
+        ]
+      }
+    }
+  ]
+}

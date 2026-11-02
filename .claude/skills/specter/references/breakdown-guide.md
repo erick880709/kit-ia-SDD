@@ -3,11 +3,13 @@
 ## Tabla de Contenidos
 1. [Cuántas historias generar](#cuántas-historias)
 2. [Historia de Usuario vs. Tarea Técnica](#hu-vs-tt)
-3. [Patrones de descomposición](#patrones)
-4. [Criterios de Aceptación bien escritos](#criterios-de-aceptación)
-5. [Estimación de Story Points](#estimación)
-6. [Épicas ambiguas](#épicas-ambiguas)
-7. [Ejemplos por tipo de épica](#ejemplos)
+3. [INVEST y límites de tamaño](#invest)
+4. [Patrones de descomposición](#patrones)
+5. [Criterios de Aceptación bien escritos](#criterios-de-aceptación)
+6. [Estimación de Story Points](#estimación)
+7. [Épicas ambiguas](#épicas-ambiguas)
+8. [No-invención y datos pendientes](#no-invención)
+9. [Ejemplos por tipo de épica](#ejemplos)
 
 ---
 
@@ -41,6 +43,21 @@ Si el resultado supera 15 historias, proponer dividir la épica en dos o más.
   - Configurar permisos/roles a nivel de sistema
   - Integración con servicios externos (sin UI)
   - Documentación técnica o de APIs
+
+---
+
+## INVEST
+
+Cada historia de usuario debe cumplir INVEST antes de darse por lista:
+
+| Criterio | Comprobación |
+|---|---|
+| **I**ndependiente | ¿Se puede desarrollar y probar sin acoplarse a otra HU? Si no, separa o declara `dependencies`. |
+| **N**egociable | ¿El alcance admite ajuste? Si está fijado en piedra, es señal de scope mal delimitado. |
+| **V**aluable | ¿Tiene `business_value` explícito? Si no, es TT, no HU. |
+| **E**stimable | ¿Los `points` se justifican con la complejidad? |
+| **S**mall | ¿Cabe en un sprint? Si supera 8–13 puntos, dividir por flujo, rol o variante. |
+| **T**esteable | ¿Cada criterio de aceptación es observable y verificable? |
 
 ---
 
@@ -150,6 +167,21 @@ Si el usuario no puede o no quiere responder preguntas, genera las historias igu
 1. Encabeza con: `⚠️ Análisis basado en supuestos — requiere validación`
 2. Lista los supuestos explícitamente antes del desglose
 3. Marca con 🔶 las historias con mayor incertidumbre
+
+---
+
+## No-invención
+
+Regla absoluta para Specter 2.0: **no inventar** lo que la fuente no sustenta.
+
+- **Datos:** los campos, tipos y relaciones del "Recurso de datos involucrado" se completan solo
+  con información explícita o implícita de la fuente. Si un dato es necesario pero no está
+  definido, escribe `No especificado en la épica — definir con negocio`.
+- **Arquitectura:** `component`, `architecture_layer`, `file_boundaries`, `api_contracts` y
+  `data_contracts` se dejan `null` o vacíos si no se conocen. Una decisión arquitectónica que el
+  desglose exija se deriva a `archi`; no se resuelve en Specter.
+- **Estados de información:** clasifica cada dato como confirmado, inferido, asumido o pendiente
+  (ver `SKILL.md` Fase 2) y persiste los supuestos en `assumptions` y las dudas en `open_questions`.
 
 ---
 

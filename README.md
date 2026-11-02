@@ -137,7 +137,7 @@ la fuente de verdad si algo de este README no coincide.
 | `janus` | Extrae requerimientos funcionales, no funcionales, técnicos y de diseño desde una RFP | Documento PDF, DOCX, PPTX, XLSX, HTML, TXT o MD | Un `.md` por requerimiento: `resources/functional/requests/RF-###`, `resources/architecture/definitions/RNF-###` y `RT-###`, `resources/design/models/RD-###`, más `resources/summary/executive-summary.md` | `/janus analiza la RFP docs/rfp-banco.pdf` |
 | `epicureo` | Refina una necesidad ambigua con rondas de preguntas hasta que el Índice de Ambigüedad (IA) sea ≤ 15 | Texto libre o un archivo `RF`/`RNF`/`RT`/`RD` de `janus` | `resources/functional/reqs/NNN-slug.md` y/o una épica en Jira | `/epicureo refina resources/functional/requests/RF-003-*.md` |
 | `storming` | Facilita EventStorming (Big Picture, Process Modelling, Software Design): eventos, comandos, políticas, agregados, bounded contexts, hotspots | Necesidad refinada, requerimientos o conocimiento del dominio | Artefactos en `resources/functional/eventstorming/` | `/storming modela el proceso de originación de crédito` |
-| `specter` | Desglosa una épica en historias de usuario, tareas técnicas y subtareas con criterios de aceptación | Clave de épica de Jira o un `resources/functional/reqs/*.md` | `resources/functional/hu/hu-##-*.md` y `tt-##-*.md`, y/o issues en Jira | `/specter desglosa la épica PROJ-42` |
+| `specter` | Desglosa una épica en historias de usuario y tareas técnicas trazables con criterios de aceptación, contrato formal HU/TT (JSON Schema 2020-12) y Quality Gate determinista | Clave de épica de Jira o un `resources/functional/reqs/*.md` | `resources/functional/hu/hu-##-*.md` y `tt-##-*.md` con frontmatter conforme al contrato, y/o issues en Jira; el gate asigna READY/NEEDS_REFINEMENT/BLOCKED | `/specter desglosa la épica PROJ-42` |
 | `cupido` (`/effort-estimator`) | Estima esfuerzo por Puntos de Función, Story Points o T-shirt, en horas y días-hombre por rol, con rango P80, cronograma, costo y escenario acelerado con IA | Épicas de `epicureo` o backlog de HU/TT de `specter` | `resources/estimation/effort-estimation-<slug>.md`, `.pptx`, `.html` (y `.pdf` opcional); para Bancolombia, `taxonomia-bancolombia-<slug>.xlsx` | `/effort-estimator estima el backlog de resources/functional/hu/` |
 | `takumi` | Levanta, caracteriza, documenta y mejora procesos de negocio (caracterizaciones, procedimientos, actas, políticas, hotspots, diagramas Mermaid) | Carpeta `Meetings/`, entrevistas, PDF, Word, Excel o PowerPoint | `resources/procesos/` (inventario, listado maestro, documentos); exporta Word, Excel o BPMN solo si se pide | `/takumi documenta el proceso de cobranza con las actas de Meetings/` |
 
@@ -362,13 +362,17 @@ python -m unittest discover -s .claude/skills/code-review/tests -p "test_*.py" -
 python -m unittest discover -s .claude/skills/archi/tests -p "test_*.py" -v
 python -m unittest discover -s .claude/skills/aegis/tests -p "test_*.py" -v
 python .claude/skills/terragrunt-iac/scripts/tg_lint.py --no-fmt .claude/skills/terragrunt-iac/assets/live-stacks
+
+# Quality Gate y Evaluation Harness de Specter (Node, deterministas)
+node .claude/skills/specter/scripts/quality_gate.mjs --root .
+node .claude/skills/specter/evaluations/run.mjs
 ```
 
 Las evaluaciones de comportamiento con un agente real se preparan y comprueban con
 los harness de cada skill: `builder/scripts/evaluate_builder.py`,
-`code-review/scripts/evaluate_review.py` y `ranger/scripts/evaluate.mjs`. Que el
-frontmatter y los enlaces sean válidos no demuestra que una skill funcione: hay que
-medir sus decisiones en proyectos aislados.
+`code-review/scripts/evaluate_review.py`, `ranger/scripts/evaluate.mjs` y
+`specter/evaluations/run.mjs`. Que el frontmatter y los enlaces sean válidos no
+demuestra que una skill funcione: hay que medir sus decisiones en proyectos aislados.
 
 ---
 

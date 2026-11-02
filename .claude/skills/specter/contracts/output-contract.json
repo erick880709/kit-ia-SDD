@@ -1,0 +1,23 @@
+{
+  "contractVersion": "0.1.0",
+  "capabilityId": "specter",
+  "resultsRoot": "resources/functional/hu",
+  "artifactSchemas": {
+    "user_story": "contracts/user-story.schema.json",
+    "technical_task": "contracts/technical-task.schema.json"
+  },
+  "gate": "scripts/quality_gate.mjs",
+  "preconditions": [
+    {
+      "id": "source_defined",
+      "description": "Épica de Jira accesible por MCP o especificación refinada en resources/functional/reqs/."
+    }
+  ],
+  "semanticPostconditions": [
+    "Cada HU y TT queda trazada a su fuente (épica y/o requisitos) sin inventar requisitos ni decisiones arquitectónicas.",
+    "Cada TT se relaciona con su HU padre o, de forma excepcional y documentada, con la épica.",
+    "Los criterios de aceptación son verificables y, cuando aplica, incluyen escenarios negativos.",
+    "El Quality Gate asigna READY, NEEDS_REFINEMENT o BLOCKED con reglas deterministas independientes del LLM."
+  ],
+  "semanticValidation": "El gate (scripts/quality_gate.mjs) es determinista; la generación del desglose sigue dependiendo del agente y debe contrastarse con las fuentes."
+}
