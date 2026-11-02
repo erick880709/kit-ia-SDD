@@ -354,6 +354,7 @@ Desde la raíz del kit:
 npm ci
 node --test
 node test/validate-skill-catalog.mjs --table   # tabla de capacidades del catálogo
+node test/validate-github-agents-sync.mjs      # sincronía de .github/agents/ con .claude/agents/
 
 # Pruebas de los scripts de cada skill (Python)
 python -m unittest discover -s .claude/skills/builder/tests -p "test_*.py" -v

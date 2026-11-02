@@ -34,6 +34,9 @@ jobs:
       - name: Validar catálogo de skills
         run: node test/validate-skill-catalog.mjs
 
+      - name: Verificar sincronía de custom agents de Copilot
+        run: node test/validate-github-agents-sync.mjs
+
       - name: Validar grafo de memoria del kit
         run: node .claude/skills/memoria/scripts/memoria.mjs validate
 

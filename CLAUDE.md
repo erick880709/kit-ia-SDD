@@ -64,7 +64,9 @@ corporate policy.
 project's `.memoria/` knowledge graph when it finishes a task (payload in `.memoria/pending/` or
 `node .claude/skills/memoria/scripts/memoria.mjs record ...`), and the Stop hook in
 `.claude/settings.json` consolidates pending nodes without blocking the session. The kit's GitHub
-workflow validates `.memoria/graph.json`; `memoria init` installs the hook and a per-project
+workflow validates `.memoria/graph.json`, runs the kit tests, and verifies that the thin Copilot
+agent mirror (`.github/agents/`) stays in sync with `.claude/agents/`
+(`test/validate-github-agents-sync.mjs`); `memoria init` installs the hook and a per-project
 workflow. See `.claude/skills/memoria/SKILL.md`.
 
 ## `resources/` conventions
