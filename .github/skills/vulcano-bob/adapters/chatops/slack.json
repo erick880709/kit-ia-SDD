@@ -1,6 +1,0 @@
-{
-  "id": "slack",
-  "kind": "chatops",
-  "status": "planned",
-  "reference": "references/adapters.md"
-}

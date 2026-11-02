@@ -1,4 +1,0 @@
-interface:
-  display_name: "Iris"
-  short_description: "Architect complete, traceable UX systems"
-  default_prompt: "Use $iris to transform these requirements into a traceable UX architecture and validate design coverage."

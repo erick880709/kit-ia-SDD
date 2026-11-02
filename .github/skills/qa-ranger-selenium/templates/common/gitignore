@@ -1,7 +1,0 @@
-target/
-reports/
-__pycache__/
-.pytest_cache/
-.venv/
-.env
-*.log

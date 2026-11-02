@@ -1,5 +1,0 @@
-{
-  "id": "#string",
-  "estado": "#regex (ACTIVO|INACTIVO)",
-  "fechaCreacion": "#string"
-}

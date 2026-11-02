@@ -1,7 +1,0 @@
-{
-  "codigo": "#string",
-  "mensaje": "#string",
-  "detalles": "##[] #object",
-  "stackTrace": "#notpresent",
-  "exception": "#notpresent"
-}

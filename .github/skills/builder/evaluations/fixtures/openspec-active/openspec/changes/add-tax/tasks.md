@@ -1,2 +1,0 @@
-- [ ] Implementar cálculo de impuesto.
-- [ ] Actualizar documentación de usuario (fuera del encargo actual).
