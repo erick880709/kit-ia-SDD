@@ -8,8 +8,9 @@ description: >
   Implementa cambios concretos en aplicaciones existentes: funcionalidades, bugs,
   refactors e integraciones; también los explora, planifica o reanuda cuando ese es
   el encargo. Úsala para modificar código con evidencia y SDD proporcional; incluye
-  perfiles especializados para Go, Angular y Java/Spring Boot (incluido el Scaffold
-  de Bancolombia). Antes de iniciar ofrece conectar por MCP un tablero de Jira o
+  perfiles especializados para Go, Angular, Java/Spring Boot (incluido el Scaffold
+  de Bancolombia), Python y Machine Learning en Python. Antes de iniciar ofrece
+  conectar por MCP un tablero de Jira o
   Azure DevOps (opcional) para leer la HU y, al terminar, comentar lo realizado y
   cambiar su estado. No la uses para arquitectura global, baselines, estrategia QA,
   skills/agentes, IaC o despliegue.
@@ -126,8 +127,14 @@ Si tiene `pom.xml` o `build.gradle`, lee el
 [perfil Java/Spring](references/stacks/java-spring/spring-profile.md): la release
 de Java y la versión de Spring Boot declaradas limitan las APIs, el stack
 imperativo o reactivo lo fija el proyecto y, en proyectos del Scaffold, su
-referencia manda sobre la estructura. Los perfiles concretan este flujo; no
-reemplazan sus invariantes ni las convenciones observadas del proyecto.
+referencia manda sobre la estructura. Si tiene `pyproject.toml`, `requirements.txt`,
+`setup.py`, `uv.lock` o `poetry.lock`, lee el
+[perfil Python](references/stacks/python/python-profile.md): la versión
+`requires-python` limita las features utilizables y, si el cambio toca modelos,
+pipelines o serving, lee también la guía de
+[Machine Learning](references/stacks/python/python-ml.md). Los perfiles concretan
+este flujo; no reemplazan sus invariantes ni las convenciones observadas del
+proyecto.
 
 Inspecciona tests y estado inicial relevante. Registra fallos preexistentes sin
 confundirlos con regresiones. Lee `.solution-baseline/receipt.yaml` y el handoff
