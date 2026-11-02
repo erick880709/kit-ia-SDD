@@ -25,6 +25,7 @@ function compatHu(overrides = {}) {
     dependencies: [],
     priority: "Alta",
     points: 5,
+    functional_complexity: "media",
     ...overrides,
   };
 }
@@ -42,6 +43,7 @@ function compatTt(overrides = {}) {
     created_at: "2026-11-02T15:00:00Z",
     updated_at: "2026-11-02T15:00:00Z",
     technical_objective: "Crear la tabla users.",
+    implementation_scope: "Crear el esquema de la tabla users.",
     implementation_steps: ["Migración"],
     definition_of_done: ["La migración aplica y revierte sin errores"],
     test_strategy: "Idempotencia",

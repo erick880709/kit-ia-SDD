@@ -11,6 +11,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { parseFrontmatter, validate, summarizeDimensions } from "./engine.mjs";
+import { findDuplicates } from "./duplicates.mjs";
+import { detectCycles } from "./traceability.mjs";
 
 function collectFiles(args, root) {
   const hus = [];
@@ -54,9 +56,33 @@ function main() {
     return 2;
   }
 
-  const ready = reports.every(r => r.state === "READY");
+  // ── Quality Gate del conjunto ──
+  const huObjs = hus.map(f => { try { return parseFrontmatter(f); } catch { return null; } }).filter(Boolean);
+  const ttObjs = tts.map(f => { try { return parseFrontmatter(f); } catch { return null; } }).filter(Boolean);
+  const huIds = new Set(huObjs.map(h => h.id));
+  const setFindings = [];
+  const seenIds = new Set();
+  for (const a of [...huObjs, ...ttObjs]) {
+    if (seenIds.has(a.id)) setFindings.push({ severity: "critical", kind: "id duplicado", id: a.id });
+    seenIds.add(a.id);
+  }
+  for (const t of ttObjs) {
+    if (t.parent_hu_id && !huIds.has(t.parent_hu_id)) setFindings.push({ severity: "critical", kind: "TT con HU padre inexistente", id: t.id, ref: t.parent_hu_id });
+  }
+  for (const d of findDuplicates(huObjs)) {
+    setFindings.push({ severity: "high", kind: "huella duplicada", a: d.a, b: d.b, type: d.type, reason: d.reason });
+  }
+  for (const c of detectCycles(huObjs, ttObjs)) setFindings.push(c);
+  const setCritical = setFindings.filter(f => f.severity === "critical");
+  const setHigh = setFindings.filter(f => f.severity === "high");
+  let setState = "READY";
+  if (setCritical.length) setState = "BLOCKED";
+  else if (setHigh.length || !ready) setState = "NEEDS_REFINEMENT";
+  const set = { state: setState, findings: setFindings };
+
+  const ready = reports.every(r => r.state === "READY") && setState === "READY";
   if (json) {
-    console.log(JSON.stringify({ ready, artifacts: reports }, null, 2));
+    console.log(JSON.stringify({ ready, set, artifacts: reports }, null, 2));
   } else {
     for (const r of reports) {
       console.log(`${r.state.padEnd(17)} ${r.file}  score=${r.score}`);
@@ -69,7 +95,9 @@ function main() {
       const dimLine = Object.entries(dims).map(([d, v]) => `${d} ${v.passed}/${v.total}`).join(" · ");
       console.log(`    ${dimLine}`);
     }
-    console.log(`\n${reports.length} artefacto(s): ${ready ? "todos READY" : "hay NO-READY"}`);
+    console.log(`\nConjunto: ${setState} (${setFindings.length} hallazgos transversales).`);
+    for (const f of setFindings) console.log(`  [${f.severity}] ${f.kind}: ${f.id || f.a}${f.ref ? ` → ${f.ref}` : ""}`);
+    console.log(`${reports.length} artefacto(s): ${ready ? "todos READY" : "hay NO-READY"}`);
   }
   return ready ? 0 : 1;
 }

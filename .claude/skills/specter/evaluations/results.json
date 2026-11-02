@@ -1,6 +1,19 @@
 {
   "cases": [
     {
+      "id": "ca-no-verificable",
+      "name": "Criterios de aceptación no verificables",
+      "artifacts": [
+        {
+          "id": "HU-13",
+          "kind": "user_story",
+          "state": "NEEDS_REFINEMENT",
+          "expected": "NEEDS_REFINEMENT",
+          "score": 88
+        }
+      ]
+    },
+    {
       "id": "cambio-sistema-existente",
       "name": "Cambio sobre sistema existente",
       "artifacts": [
@@ -42,7 +55,7 @@
           "kind": "user_story",
           "state": "NEEDS_REFINEMENT",
           "expected": "NEEDS_REFINEMENT",
-          "score": 95
+          "score": 91
         }
       ]
     },
@@ -75,7 +88,27 @@
           "kind": "user_story",
           "state": "NEEDS_REFINEMENT",
           "expected": "NEEDS_REFINEMENT",
-          "score": 95
+          "score": 91
+        }
+      ]
+    },
+    {
+      "id": "historias-similares-distintas",
+      "name": "Historias similares pero diferentes",
+      "artifacts": [
+        {
+          "id": "HU-15a",
+          "kind": "user_story",
+          "state": "READY",
+          "expected": "READY",
+          "score": 100
+        },
+        {
+          "id": "HU-15b",
+          "kind": "user_story",
+          "state": "READY",
+          "expected": "READY",
+          "score": 100
         }
       ]
     },
@@ -86,9 +119,9 @@
         {
           "id": "HU-07",
           "kind": "user_story",
-          "state": "NEEDS_REFINEMENT",
-          "expected": "NEEDS_REFINEMENT",
-          "score": 92
+          "state": "READY",
+          "expected": "READY",
+          "score": 100
         }
       ]
     },
@@ -105,6 +138,32 @@
         },
         {
           "id": "HU-08b",
+          "kind": "user_story",
+          "state": "READY",
+          "expected": "READY",
+          "score": 100
+        }
+      ]
+    },
+    {
+      "id": "hu-sin-trazabilidad",
+      "name": "Requisito sin trazabilidad",
+      "artifacts": [
+        {
+          "id": "HU-12",
+          "kind": "user_story",
+          "state": "NEEDS_REFINEMENT",
+          "expected": "NEEDS_REFINEMENT",
+          "score": 88
+        }
+      ]
+    },
+    {
+      "id": "hu-valida-warnings",
+      "name": "HU válida con warnings",
+      "artifacts": [
+        {
+          "id": "HU-14",
           "kind": "user_story",
           "state": "READY",
           "expected": "READY",
@@ -150,6 +209,19 @@
           "score": 100
         }
       ]
+    },
+    {
+      "id": "tt-sin-padre-justificada",
+      "name": "TT sin HU padre justificada",
+      "artifacts": [
+        {
+          "id": "TT-11",
+          "kind": "technical_task",
+          "state": "READY",
+          "expected": "READY",
+          "score": 100
+        }
+      ]
     }
   ],
   "metrics": {
@@ -158,15 +230,15 @@
       "formula": "requisitos cubiertos / requisitos totales"
     },
     "story_readiness": {
-      "value": 0.556,
+      "value": 0.643,
       "formula": "HU READY / HU totales"
     },
     "traceability_coverage": {
-      "value": 1,
+      "value": 0.947,
       "formula": "(HU con origen + TT ancladas) / (HU + TT)"
     },
     "acceptance_criteria_testability": {
-      "value": 1,
+      "value": 0.933,
       "formula": "CA observables / CA totales"
     },
     "duplicate_detection": {
@@ -178,11 +250,11 @@
       "formula": "ambigüedades detectadas / ambigüedades inyectadas"
     },
     "technical_task_completeness": {
-      "value": 0.98,
+      "value": 0.984,
       "formula": "media del score de TT / 100"
     },
     "first_pass_quality_gate_rate": {
-      "value": 0.615,
+      "value": 0.684,
       "formula": "artefactos READY / artefactos totales"
     },
     "false_acceptance_rate": {
@@ -195,6 +267,20 @@
     }
   },
   "artifacts": [
+    {
+      "case": "ca-no-verificable",
+      "kind": "user_story",
+      "id": "HU-13",
+      "state": "NEEDS_REFINEMENT",
+      "score": 88,
+      "expected_state": "NEEDS_REFINEMENT",
+      "hasOrigin": true,
+      "caTotal": 1,
+      "caObservable": 0,
+      "requirement_ids": [
+        "RF-010"
+      ]
+    },
     {
       "case": "cambio-sistema-existente",
       "kind": "technical_task",
@@ -240,7 +326,7 @@
       "kind": "user_story",
       "id": "HU-02",
       "state": "NEEDS_REFINEMENT",
-      "score": 95,
+      "score": 91,
       "expected_state": "NEEDS_REFINEMENT",
       "hasOrigin": true,
       "caTotal": 1,
@@ -282,7 +368,7 @@
       "kind": "user_story",
       "id": "HU-10",
       "state": "NEEDS_REFINEMENT",
-      "score": 95,
+      "score": 91,
       "expected_state": "NEEDS_REFINEMENT",
       "hasOrigin": true,
       "caTotal": 1,
@@ -292,12 +378,40 @@
       ]
     },
     {
+      "case": "historias-similares-distintas",
+      "kind": "user_story",
+      "id": "HU-15a",
+      "state": "READY",
+      "score": 100,
+      "expected_state": "READY",
+      "hasOrigin": true,
+      "caTotal": 1,
+      "caObservable": 1,
+      "requirement_ids": [
+        "RF-012"
+      ]
+    },
+    {
+      "case": "historias-similares-distintas",
+      "kind": "user_story",
+      "id": "HU-15b",
+      "state": "READY",
+      "score": 100,
+      "expected_state": "READY",
+      "hasOrigin": true,
+      "caTotal": 1,
+      "caObservable": 1,
+      "requirement_ids": [
+        "RF-012"
+      ]
+    },
+    {
       "case": "hu-demasiado-grande",
       "kind": "user_story",
       "id": "HU-07",
-      "state": "NEEDS_REFINEMENT",
-      "score": 92,
-      "expected_state": "NEEDS_REFINEMENT",
+      "state": "READY",
+      "score": 100,
+      "expected_state": "READY",
       "hasOrigin": true,
       "caTotal": 1,
       "caObservable": 1,
@@ -331,6 +445,32 @@
       "caObservable": 1,
       "requirement_ids": [
         "RF-008"
+      ]
+    },
+    {
+      "case": "hu-sin-trazabilidad",
+      "kind": "user_story",
+      "id": "HU-12",
+      "state": "NEEDS_REFINEMENT",
+      "score": 88,
+      "expected_state": "NEEDS_REFINEMENT",
+      "hasOrigin": false,
+      "caTotal": 1,
+      "caObservable": 1,
+      "requirement_ids": []
+    },
+    {
+      "case": "hu-valida-warnings",
+      "kind": "user_story",
+      "id": "HU-14",
+      "state": "READY",
+      "score": 100,
+      "expected_state": "READY",
+      "hasOrigin": true,
+      "caTotal": 1,
+      "caObservable": 1,
+      "requirement_ids": [
+        "RF-011"
       ]
     },
     {
@@ -373,6 +513,19 @@
       "requirement_ids": [
         "RF-005"
       ]
+    },
+    {
+      "case": "tt-sin-padre-justificada",
+      "kind": "technical_task",
+      "id": "TT-11",
+      "state": "READY",
+      "score": 100,
+      "expected_state": "READY",
+      "hasOrigin": true,
+      "hasAnchor": true,
+      "caTotal": 0,
+      "caObservable": 0,
+      "requirement_ids": []
     }
   ]
 }

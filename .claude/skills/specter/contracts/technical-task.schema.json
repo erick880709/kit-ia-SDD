@@ -12,6 +12,11 @@
     "parent_hu_id": { "$ref": "#/$defs/idOrNull" },
     "epic": { "$ref": "#/$defs/idOrNull" },
     "epic_id": { "$ref": "#/$defs/idOrNull" },
+    "parent_exception_reason": {
+      "description": "Justificación obligatoria cuando parent_hu_id es null (TT habilitadora de épica).",
+      "$ref": "#/$defs/text"
+    },
+    "requirement_ids": { "$ref": "#/$defs/refList" },
     "title": { "$ref": "#/$defs/text" },
     "technical_objective": { "$ref": "#/$defs/text" },
     "component": { "$ref": "#/$defs/idOrNull" },
@@ -28,6 +33,16 @@
     "evidence_requirements": { "$ref": "#/$defs/stringList" },
     "priority": { "$ref": "#/$defs/priority" },
     "points": { "$ref": "#/$defs/points" },
+    "functional_complexity": {
+      "description": "Complejidad funcional orientativa (baja/media/alta).",
+      "enum": ["baja", "media", "alta"]
+    },
+    "technical_complexity": {
+      "description": "Complejidad técnica orientativa (baja/media/alta).",
+      "enum": ["baja", "media", "alta"]
+    },
+    "risk_factors": { "$ref": "#/$defs/stringList" },
+    "uncertainties": { "$ref": "#/$defs/stringList" },
     "status": { "$ref": "#/$defs/status" },
     "quality_score": { "$ref": "#/$defs/score" },
     "schema_version": { "const": "0.1.0" },
@@ -36,6 +51,13 @@
     "updated_at": { "$ref": "#/$defs/isoDateTime" },
     "source_artifact_ids": { "$ref": "#/$defs/refList" }
   },
+  "allOf": [
+    {
+      "description": "TT habilitadora de épica: si parent_hu_id es null, epic_id y parent_exception_reason son obligatorios.",
+      "if": { "required": ["parent_hu_id"], "properties": { "parent_hu_id": { "const": null } } },
+      "then": { "required": ["parent_exception_reason", "epic_id"] }
+    }
+  ],
   "$defs": {
     "id": {
       "type": "string",

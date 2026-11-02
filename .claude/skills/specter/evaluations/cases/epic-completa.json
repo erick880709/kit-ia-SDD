@@ -25,7 +25,7 @@
         "artifact_version": "1",
         "created_at": "2026-11-02T15:00:00Z",
         "updated_at": "2026-11-02T15:00:00Z",
-        "business_value": "Valor de negocio.",
+        "business_value": "Permite al usuario completar el flujo principal de forma segura.",
         "user_story": {
           "role": "usuario",
           "action": "usar la funcionalidad",
@@ -53,7 +53,8 @@
         ],
         "dependencies": [],
         "priority": "Alta",
-        "points": 5
+        "points": 5,
+        "functional_complexity": "media"
       }
     },
     {
@@ -63,14 +64,15 @@
       "data": {
         "id": "TT-01",
         "type": "Tarea Técnica",
-        "title": "Tarea técnica",
+        "title": "Migrar esquema de usuarios",
         "parent_hu_id": "HU-01",
         "status": "ready",
         "schema_version": "0.1.0",
         "artifact_version": "1",
         "created_at": "2026-11-02T15:00:00Z",
         "updated_at": "2026-11-02T15:00:00Z",
-        "technical_objective": "Objetivo técnico.",
+        "technical_objective": "Implementar la capacidad técnica descrita en la tarea.",
+        "implementation_scope": "Alcance acotado de la tarea técnica.",
         "implementation_steps": [
           "Paso 1"
         ],
