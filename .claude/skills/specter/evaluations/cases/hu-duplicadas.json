@@ -1,0 +1,101 @@
+{
+  "id": "hu-duplicadas",
+  "name": "HU duplicadas",
+  "description": "Dos HU con el mismo t?tulo: el harness detecta la duplicidad.",
+  "input": {
+    "epic": "Consultar movimientos."
+  },
+  "requirements": [
+    "RF-008"
+  ],
+  "ambiguities": [],
+  "duplicates_injected": 1,
+  "artifacts": [
+    {
+      "kind": "user_story",
+      "id": "HU-08a",
+      "expected_state": "READY",
+      "data": {
+        "id": "HU-08a",
+        "type": "historia_usuario",
+        "title": "Consultar movimientos",
+        "status": "ready",
+        "schema_version": "0.1.0",
+        "artifact_version": "1",
+        "created_at": "2026-11-02T15:00:00Z",
+        "updated_at": "2026-11-02T15:00:00Z",
+        "business_value": "Valor de negocio.",
+        "user_story": {
+          "role": "usuario",
+          "action": "usar la funcionalidad",
+          "benefit": "lograr su objetivo"
+        },
+        "scope": {
+          "included": [
+            "alcance"
+          ],
+          "excluded": []
+        },
+        "acceptance_criteria": [
+          {
+            "id": "CA1",
+            "scenario": "Dado un contexto, cuando act?a, entonces observa el resultado.",
+            "negative": false
+          }
+        ],
+        "main_flow": [
+          "Paso 1"
+        ],
+        "requirement_ids": [
+          "RF-008"
+        ],
+        "dependencies": [],
+        "priority": "media",
+        "points": 5
+      }
+    },
+    {
+      "kind": "user_story",
+      "id": "HU-08b",
+      "expected_state": "READY",
+      "data": {
+        "id": "HU-08b",
+        "type": "historia_usuario",
+        "title": "Consultar movimientos",
+        "status": "ready",
+        "schema_version": "0.1.0",
+        "artifact_version": "1",
+        "created_at": "2026-11-02T15:00:00Z",
+        "updated_at": "2026-11-02T15:00:00Z",
+        "business_value": "Valor de negocio.",
+        "user_story": {
+          "role": "usuario",
+          "action": "usar la funcionalidad",
+          "benefit": "lograr su objetivo"
+        },
+        "scope": {
+          "included": [
+            "alcance"
+          ],
+          "excluded": []
+        },
+        "acceptance_criteria": [
+          {
+            "id": "CA1",
+            "scenario": "Dado un contexto, cuando act?a, entonces observa el resultado.",
+            "negative": false
+          }
+        ],
+        "main_flow": [
+          "Paso 1"
+        ],
+        "requirement_ids": [
+          "RF-008"
+        ],
+        "dependencies": [],
+        "priority": "media",
+        "points": 5
+      }
+    }
+  ]
+}

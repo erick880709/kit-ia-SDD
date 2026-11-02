@@ -11,7 +11,7 @@ Para la entrada, la salida y un ejemplo de invocación de cada skill, consulte e
 | [`janus`](../skills/janus/SKILL.md) | `janus` | Extraer requisitos y contexto desde RFP y documentos de entrada | Invocación directa |
 | [`epicureo`](../skills/epicureo/SKILL.md) | `epicureo` | Refinar necesidades hasta un índice de ambigüedad aceptable | Invocación directa; Jira opcional por MCP |
 | [`storming`](../skills/storming/SKILL.md) | `storming` | Descubrir y validar dominio con Big Picture, Process Modelling y Software Design de EventStorming | Agente `storming` o invocación directa |
-| [`specter`](../skills/specter/SKILL.md) | `specter` | Desglosar una épica en historias y tareas técnicas | Invocación directa; Jira por MCP o Markdown |
+| [`specter`](../skills/specter/SKILL.md) | `specter` | Desglosar una épica en historias y tareas técnicas trazables, con contrato formal HU/TT y Quality Gate determinista | Invocación directa; Jira por MCP o Markdown; valida con `scripts/quality_gate.mjs` |
 | [`cupido`](../skills/cupido/SKILL.md) | `effort-estimator` | Estimar esfuerzo, cronograma y costo, incluida la comparación con aceleración por IA | Invocación directa; la carpeta y el nombre canónico difieren |
 | [`takumi`](../skills/takumi/SKILL.md) | `takumi` | Levantar, documentar y mejorar procesos de negocio | Agente `takumi` o invocación directa |
 
@@ -100,7 +100,13 @@ Estas skills existieron en versiones anteriores del kit y ya no están en `.clau
 
 Comprobación del 27 de octubre de 2026 con `node test/validate-skill-catalog.mjs`: las 28 skills de entonces tienen frontmatter YAML válido y declaran `metadata.capability` y `metadata.capability-summary` dentro de los límites del catálogo. `aegis`, agregada el 2 de noviembre de 2026, pasa la misma validación, y también `terragrunt-iac`, agregada el mismo día (30/30).
 
-Ese validador no revisa claves de primer nivel. `cupido`/`effort-estimator`, `epicureo` y `specter` siguen declarando la clave top-level `compatibility`, que el validador de `skill-creator` no admite (solo permite `allowed-tools`, `description`, `license`, `metadata` y `name`). Es una deuda de empaquetado preexistente: no invalida su lógica funcional, pero impide declararlas conformes con ese contrato. La corrección debe preservar la restricción de integración en el cuerpo o en `metadata`.
+Ese validador no revisa claves de primer nivel. `cupido`/`effort-estimator` y `epicureo` siguen
+declarando la clave top-level `compatibility`, que el validador de `skill-creator` no admite (solo
+permite `allowed-tools`, `description`, `license`, `metadata` y `name`). Es una deuda de
+empaquetado preexistente: no invalida su lógica funcional, pero impide declararlas conformes con
+ese contrato. La corrección debe preservar la restricción de integración en el cuerpo o en
+`metadata`. (`specter` ya la resolvió en su evolución 2.0: la restricción de MCP de Jira se movió
+al cuerpo del `SKILL.md`.)
 
 ## Reglas de identidad
 

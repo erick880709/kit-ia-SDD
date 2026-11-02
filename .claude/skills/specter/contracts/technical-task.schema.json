@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:kit-ia:specter:0.1.0:technical-task",
+  "title": "Tarea técnica de Specter",
+  "description": "Contrato formal de una tarea técnica desglosada por Specter. La tarea técnica es trabajo de ingeniería sin valor de negocio directo y siempre se relaciona con su historia de usuario padre (o, de forma excepcional y documentada, con la épica cuando parent_hu_id es null).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "type", "title", "parent_hu_id", "status", "schema_version", "artifact_version", "created_at", "updated_at"],
+  "properties": {
+    "id": { "$ref": "#/$defs/id" },
+    "type": { "const": "tarea_tecnica" },
+    "parent_hu_id": { "$ref": "#/$defs/idOrNull" },
+    "epic_id": { "$ref": "#/$defs/idOrNull" },
+    "title": { "$ref": "#/$defs/text" },
+    "technical_objective": { "$ref": "#/$defs/text" },
+    "component": { "$ref": "#/$defs/idOrNull" },
+    "architecture_layer": { "$ref": "#/$defs/idOrNull" },
+    "implementation_scope": { "$ref": "#/$defs/text" },
+    "file_boundaries": { "$ref": "#/$defs/stringList" },
+    "api_contracts": { "$ref": "#/$defs/stringList" },
+    "data_contracts": { "$ref": "#/$defs/stringList" },
+    "security_considerations": { "$ref": "#/$defs/stringList" },
+    "dependencies": { "$ref": "#/$defs/refList" },
+    "implementation_steps": { "$ref": "#/$defs/stringList" },
+    "test_strategy": { "$ref": "#/$defs/text" },
+    "definition_of_done": { "$ref": "#/$defs/stringList" },
+    "evidence_requirements": { "$ref": "#/$defs/stringList" },
+    "priority": { "$ref": "#/$defs/priority" },
+    "points": { "$ref": "#/$defs/points" },
+    "status": { "$ref": "#/$defs/status" },
+    "quality_score": { "$ref": "#/$defs/score" },
+    "schema_version": { "const": "0.1.0" },
+    "artifact_version": { "$ref": "#/$defs/text" },
+    "created_at": { "$ref": "#/$defs/isoDateTime" },
+    "updated_at": { "$ref": "#/$defs/isoDateTime" },
+    "source_artifact_ids": { "$ref": "#/$defs/refList" }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
+    },
+    "idOrNull": {
+      "type": ["string", "null"],
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "isoDateTime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "stringList": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/text" }
+    },
+    "refList": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      }
+    },
+    "score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "status": {
+      "description": "Estado del artefacto. draft: en redacción; ready: cumple el gate; needs_refinement: información incompleta o corregible; blocked: contradicciones o decisiones que requieren aprobación.",
+      "enum": ["draft", "ready", "needs_refinement", "blocked"]
+    },
+    "priority": {
+      "enum": ["alta", "media", "baja"]
+    },
+    "points": {
+      "enum": [1, 2, 3, 5, 8, 13]
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "specter": "1.0",
+  "source": "Specter 1.0 no tenía Quality Gate determinista, contratos formales ni trazabilidad estructurada. Las métricas que 1.0 no medía se marcan null (N/A); las que dependían de validación determinista se marcan 0. No se inventan valores: este baseline es honesto.",
+  "metrics": {
+    "requirement_coverage": null,
+    "story_readiness": null,
+    "traceability_coverage": null,
+    "acceptance_criteria_testability": null,
+    "duplicate_detection_rate": null,
+    "ambiguity_detection_rate": null,
+    "technical_task_completeness": null,
+    "first_pass_quality_gate_rate": 0,
+    "false_acceptance_rate": null,
+    "false_rejection_rate": null
+  }
+}

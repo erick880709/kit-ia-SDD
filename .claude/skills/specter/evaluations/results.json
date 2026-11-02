@@ -1,0 +1,378 @@
+{
+  "cases": [
+    {
+      "id": "cambio-sistema-existente",
+      "name": "Cambio sobre sistema existente",
+      "artifacts": [
+        {
+          "id": "TT-09",
+          "kind": "technical_task",
+          "state": "READY",
+          "expected": "READY",
+          "score": 100
+        }
+      ]
+    },
+    {
+      "id": "crud",
+      "name": "Funcionalidad CRUD",
+      "artifacts": [
+        {
+          "id": "HU-05",
+          "kind": "user_story",
+          "state": "READY",
+          "expected": "READY",
+          "score": 100
+        },
+        {
+          "id": "TT-05",
+          "kind": "technical_task",
+          "state": "READY",
+          "expected": "READY",
+          "score": 100
+        }
+      ]
+    },
+    {
+      "id": "epic-ambigua",
+      "name": "?pica ambigua",
+      "artifacts": [
+        {
+          "id": "HU-02",
+          "kind": "user_story",
+          "state": "NEEDS_REFINEMENT",
+          "expected": "NEEDS_REFINEMENT",
+          "score": 95
+        }
+      ]
+    },
+    {
+      "id": "epic-completa",
+      "name": "?pica completa",
+      "artifacts": [
+        {
+          "id": "HU-01",
+          "kind": "user_story",
+          "state": "READY",
+          "expected": "READY",
+          "score": 100
+        },
+        {
+          "id": "TT-01",
+          "kind": "technical_task",
+          "state": "READY",
+          "expected": "READY",
+          "score": 100
+        }
+      ]
+    },
+    {
+      "id": "historia-sin-valor",
+      "name": "Historia sin valor de negocio",
+      "artifacts": [
+        {
+          "id": "HU-10",
+          "kind": "user_story",
+          "state": "NEEDS_REFINEMENT",
+          "expected": "NEEDS_REFINEMENT",
+          "score": 95
+        }
+      ]
+    },
+    {
+      "id": "hu-demasiado-grande",
+      "name": "HU demasiado grande",
+      "artifacts": [
+        {
+          "id": "HU-07",
+          "kind": "user_story",
+          "state": "NEEDS_REFINEMENT",
+          "expected": "NEEDS_REFINEMENT",
+          "score": 92
+        }
+      ]
+    },
+    {
+      "id": "hu-duplicadas",
+      "name": "HU duplicadas",
+      "artifacts": [
+        {
+          "id": "HU-08a",
+          "kind": "user_story",
+          "state": "READY",
+          "expected": "READY",
+          "score": 100
+        },
+        {
+          "id": "HU-08b",
+          "kind": "user_story",
+          "state": "READY",
+          "expected": "READY",
+          "score": 100
+        }
+      ]
+    },
+    {
+      "id": "integracion-api-externa",
+      "name": "Integraci?n con API externa",
+      "artifacts": [
+        {
+          "id": "TT-06",
+          "kind": "technical_task",
+          "state": "NEEDS_REFINEMENT",
+          "expected": "NEEDS_REFINEMENT",
+          "score": 92
+        }
+      ]
+    },
+    {
+      "id": "requisitos-contradictorios",
+      "name": "Requerimientos contradictorios",
+      "artifacts": [
+        {
+          "id": "HU-03",
+          "kind": "user_story",
+          "state": "BLOCKED",
+          "expected": "BLOCKED",
+          "score": 100
+        }
+      ]
+    },
+    {
+      "id": "requisitos-sin-rnf",
+      "name": "Requerimientos sin RNF",
+      "artifacts": [
+        {
+          "id": "HU-04",
+          "kind": "user_story",
+          "state": "READY",
+          "expected": "READY",
+          "score": 100
+        }
+      ]
+    }
+  ],
+  "metrics": {
+    "requirement_coverage": {
+      "value": 1,
+      "formula": "requisitos cubiertos / requisitos totales"
+    },
+    "story_readiness": {
+      "value": 0.556,
+      "formula": "HU READY / HU totales"
+    },
+    "traceability_coverage": {
+      "value": 1,
+      "formula": "(HU con origen + TT ancladas) / (HU + TT)"
+    },
+    "acceptance_criteria_testability": {
+      "value": 1,
+      "formula": "CA observables / CA totales"
+    },
+    "duplicate_detection_rate": {
+      "value": 1,
+      "formula": "duplicados detectados / duplicados inyectados"
+    },
+    "ambiguity_detection_rate": {
+      "value": 1,
+      "formula": "ambigüedades detectadas / ambigüedades inyectadas"
+    },
+    "technical_task_completeness": {
+      "value": 0.98,
+      "formula": "media del score de TT / 100"
+    },
+    "first_pass_quality_gate_rate": {
+      "value": 0.615,
+      "formula": "artefactos READY / artefactos totales"
+    },
+    "false_acceptance_rate": {
+      "value": 0,
+      "formula": "READY no esperados / total READY"
+    },
+    "false_rejection_rate": {
+      "value": 0,
+      "formula": "no-READY esperados READY / total no-READY"
+    }
+  },
+  "artifacts": [
+    {
+      "case": "cambio-sistema-existente",
+      "kind": "technical_task",
+      "id": "TT-09",
+      "state": "READY",
+      "score": 100,
+      "expected_state": "READY",
+      "hasOrigin": true,
+      "hasAnchor": true,
+      "caTotal": 0,
+      "caObservable": 0,
+      "requirement_ids": []
+    },
+    {
+      "case": "crud",
+      "kind": "user_story",
+      "id": "HU-05",
+      "state": "READY",
+      "score": 100,
+      "expected_state": "READY",
+      "hasOrigin": true,
+      "caTotal": 1,
+      "caObservable": 1,
+      "requirement_ids": [
+        "RF-006"
+      ]
+    },
+    {
+      "case": "crud",
+      "kind": "technical_task",
+      "id": "TT-05",
+      "state": "READY",
+      "score": 100,
+      "expected_state": "READY",
+      "hasOrigin": true,
+      "hasAnchor": true,
+      "caTotal": 0,
+      "caObservable": 0,
+      "requirement_ids": []
+    },
+    {
+      "case": "epic-ambigua",
+      "kind": "user_story",
+      "id": "HU-02",
+      "state": "NEEDS_REFINEMENT",
+      "score": 95,
+      "expected_state": "NEEDS_REFINEMENT",
+      "hasOrigin": true,
+      "caTotal": 1,
+      "caObservable": 1,
+      "requirement_ids": [
+        "RF-003"
+      ]
+    },
+    {
+      "case": "epic-completa",
+      "kind": "user_story",
+      "id": "HU-01",
+      "state": "READY",
+      "score": 100,
+      "expected_state": "READY",
+      "hasOrigin": true,
+      "caTotal": 1,
+      "caObservable": 1,
+      "requirement_ids": [
+        "RF-001",
+        "RF-002"
+      ]
+    },
+    {
+      "case": "epic-completa",
+      "kind": "technical_task",
+      "id": "TT-01",
+      "state": "READY",
+      "score": 100,
+      "expected_state": "READY",
+      "hasOrigin": true,
+      "hasAnchor": true,
+      "caTotal": 0,
+      "caObservable": 0,
+      "requirement_ids": []
+    },
+    {
+      "case": "historia-sin-valor",
+      "kind": "user_story",
+      "id": "HU-10",
+      "state": "NEEDS_REFINEMENT",
+      "score": 95,
+      "expected_state": "NEEDS_REFINEMENT",
+      "hasOrigin": true,
+      "caTotal": 1,
+      "caObservable": 1,
+      "requirement_ids": [
+        "RF-009"
+      ]
+    },
+    {
+      "case": "hu-demasiado-grande",
+      "kind": "user_story",
+      "id": "HU-07",
+      "state": "NEEDS_REFINEMENT",
+      "score": 92,
+      "expected_state": "NEEDS_REFINEMENT",
+      "hasOrigin": true,
+      "caTotal": 1,
+      "caObservable": 1,
+      "requirement_ids": [
+        "RF-007"
+      ]
+    },
+    {
+      "case": "hu-duplicadas",
+      "kind": "user_story",
+      "id": "HU-08a",
+      "state": "READY",
+      "score": 100,
+      "expected_state": "READY",
+      "hasOrigin": true,
+      "caTotal": 1,
+      "caObservable": 1,
+      "requirement_ids": [
+        "RF-008"
+      ]
+    },
+    {
+      "case": "hu-duplicadas",
+      "kind": "user_story",
+      "id": "HU-08b",
+      "state": "READY",
+      "score": 100,
+      "expected_state": "READY",
+      "hasOrigin": true,
+      "caTotal": 1,
+      "caObservable": 1,
+      "requirement_ids": [
+        "RF-008"
+      ]
+    },
+    {
+      "case": "integracion-api-externa",
+      "kind": "technical_task",
+      "id": "TT-06",
+      "state": "NEEDS_REFINEMENT",
+      "score": 92,
+      "expected_state": "NEEDS_REFINEMENT",
+      "hasOrigin": true,
+      "hasAnchor": true,
+      "caTotal": 0,
+      "caObservable": 0,
+      "requirement_ids": []
+    },
+    {
+      "case": "requisitos-contradictorios",
+      "kind": "user_story",
+      "id": "HU-03",
+      "state": "BLOCKED",
+      "score": 100,
+      "expected_state": "BLOCKED",
+      "hasOrigin": true,
+      "caTotal": 2,
+      "caObservable": 2,
+      "requirement_ids": [
+        "RF-004"
+      ]
+    },
+    {
+      "case": "requisitos-sin-rnf",
+      "kind": "user_story",
+      "id": "HU-04",
+      "state": "READY",
+      "score": 100,
+      "expected_state": "READY",
+      "hasOrigin": true,
+      "caTotal": 1,
+      "caObservable": 1,
+      "requirement_ids": [
+        "RF-005"
+      ]
+    }
+  ]
+}

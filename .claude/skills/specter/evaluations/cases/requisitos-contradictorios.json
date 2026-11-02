@@ -1,0 +1,61 @@
+{
+  "id": "requisitos-contradictorios",
+  "name": "Requerimientos contradictorios",
+  "description": "Contradicci?n se manifiesta como criterios duplicados: el gate bloquea.",
+  "input": {
+    "epic": "El alta debe permitir y a la vez impedir la edici?n posterior."
+  },
+  "requirements": [
+    "RF-004"
+  ],
+  "ambiguities": [],
+  "duplicates_injected": 0,
+  "artifacts": [
+    {
+      "kind": "user_story",
+      "id": "HU-03",
+      "expected_state": "BLOCKED",
+      "data": {
+        "id": "HU-03",
+        "type": "historia_usuario",
+        "title": "Editar registro",
+        "status": "ready",
+        "schema_version": "0.1.0",
+        "artifact_version": "1",
+        "created_at": "2026-11-02T15:00:00Z",
+        "updated_at": "2026-11-02T15:00:00Z",
+        "business_value": "Valor de negocio.",
+        "user_story": {
+          "role": "usuario",
+          "action": "usar la funcionalidad",
+          "benefit": "lograr su objetivo"
+        },
+        "scope": {
+          "included": [
+            "alcance"
+          ],
+          "excluded": []
+        },
+        "acceptance_criteria": [
+          {
+            "id": "CA1",
+            "scenario": "Dado X, cuando Y, entonces Z."
+          },
+          {
+            "id": "CA1",
+            "scenario": "Dado A, cuando B, entonces C."
+          }
+        ],
+        "main_flow": [
+          "Paso 1"
+        ],
+        "requirement_ids": [
+          "RF-004"
+        ],
+        "dependencies": [],
+        "priority": "media",
+        "points": 5
+      }
+    }
+  ]
+}

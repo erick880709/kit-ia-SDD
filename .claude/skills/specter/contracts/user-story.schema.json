@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:kit-ia:specter:0.1.0:user-story",
+  "title": "Historia de usuario de Specter",
+  "description": "Contrato formal de una historia de usuario desglosada por Specter. Define la forma estructural mínima; la completitud, consistencia, trazabilidad, testabilidad e implementabilidad las evalúa el Quality Gate (scripts/quality_gate.mjs).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "type", "title", "status", "schema_version", "artifact_version", "created_at", "updated_at"],
+  "properties": {
+    "id": { "$ref": "#/$defs/id" },
+    "type": { "const": "historia_usuario" },
+    "epic_id": { "$ref": "#/$defs/idOrNull" },
+    "requirement_ids": { "$ref": "#/$defs/refList" },
+    "title": { "$ref": "#/$defs/text" },
+    "business_value": { "$ref": "#/$defs/text" },
+    "user_story": { "$ref": "#/$defs/userStory" },
+    "description": { "$ref": "#/$defs/text" },
+    "scope": { "$ref": "#/$defs/scope" },
+    "business_rules": { "$ref": "#/$defs/stringList" },
+    "preconditions": { "$ref": "#/$defs/stringList" },
+    "main_flow": { "$ref": "#/$defs/stringList" },
+    "alternative_flows": { "$ref": "#/$defs/stringList" },
+    "exceptions": { "$ref": "#/$defs/stringList" },
+    "acceptance_criteria": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/criterion" }
+    },
+    "dependencies": { "$ref": "#/$defs/refList" },
+    "nfr_references": { "$ref": "#/$defs/refList" },
+    "test_references": { "$ref": "#/$defs/refList" },
+    "assumptions": { "$ref": "#/$defs/stringList" },
+    "open_questions": { "$ref": "#/$defs/stringList" },
+    "priority": { "$ref": "#/$defs/priority" },
+    "points": { "$ref": "#/$defs/points" },
+    "status": { "$ref": "#/$defs/status" },
+    "quality_score": { "$ref": "#/$defs/score" },
+    "schema_version": { "const": "0.1.0" },
+    "artifact_version": { "$ref": "#/$defs/text" },
+    "created_at": { "$ref": "#/$defs/isoDateTime" },
+    "updated_at": { "$ref": "#/$defs/isoDateTime" },
+    "source_artifact_ids": { "$ref": "#/$defs/refList" }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
+    },
+    "idOrNull": {
+      "type": ["string", "null"],
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "isoDateTime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "stringList": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/text" }
+    },
+    "refList": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      }
+    },
+    "score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "status": {
+      "description": "Estado del artefacto. draft: en redacción; ready: cumple el gate; needs_refinement: información incompleta o corregible; blocked: contradicciones o decisiones que requieren aprobación.",
+      "enum": ["draft", "ready", "needs_refinement", "blocked"]
+    },
+    "priority": {
+      "enum": ["alta", "media", "baja"]
+    },
+    "points": {
+      "enum": [1, 2, 3, 5, 8, 13]
+    },
+    "userStory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "action", "benefit"],
+      "properties": {
+        "role": { "$ref": "#/$defs/text" },
+        "action": { "$ref": "#/$defs/text" },
+        "benefit": { "$ref": "#/$defs/text" }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["included", "excluded"],
+      "properties": {
+        "included": { "$ref": "#/$defs/stringList" },
+        "excluded": { "$ref": "#/$defs/stringList" }
+      }
+    },
+    "criterion": {
+      "description": "Criterio de aceptación con identificador único y resultado observable. scenario admite Gherkin completo; given/when/then son la alternativa estructurada.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "scenario": { "$ref": "#/$defs/text" },
+        "given": { "$ref": "#/$defs/text" },
+        "when": { "$ref": "#/$defs/text" },
+        "then": { "$ref": "#/$defs/text" },
+        "negative": { "type": "boolean" },
+        "requirement_ids": { "$ref": "#/$defs/refList" }
+      },
+      "anyOf": [
+        { "required": ["scenario"] },
+        { "required": ["then"] }
+      ]
+    }
+  }
+}
