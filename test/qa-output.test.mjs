@@ -1,0 +1,21 @@
+// Node skips hidden directories during discovery. Explicitly register this suite.
+import "../.claude/contracts/output/tests/interface.test.mjs";
+import "../.claude/contracts/output/tests/host.test.mjs";
+import "../.claude/contracts/output/tests/registry.test.mjs";
+import "../.claude/contracts/output/tests/examples.test.mjs";
+import "../.claude/contracts/output/tests/unregistered.test.mjs";
+import "../.claude/skills/ranger/tests/contracts.test.mjs";
+import "../.claude/contracts/output/tests/report.test.mjs";
+import "../.claude/skills/qa-ranger-plan-pruebas/tests/contracts.test.mjs";
+import "../.claude/skills/qa-ranger-playwright/tests/contracts.test.mjs";
+import "../.claude/skills/qa-ranger-karate/tests/contracts.test.mjs";
+import "../.claude/skills/qa-ranger-unitarias/tests/contracts.test.mjs";
+import "../.claude/skills/qa-ranger-selenium/tests/contracts.test.mjs";
+import "../.claude/skills/qa-ranger-jmeter/tests/contracts.test.mjs";
+import "../.claude/skills/qa-ranger-robotframework/tests/contracts.test.mjs";
+import "../.claude/skills/qa-ranger-playwright/tests/evidence-pipeline.test.mjs";
+import "../.claude/contracts/output/tests/results-root.test.mjs";
+import "../.claude/contracts/output/tests/hook.test.mjs";
+import "../.claude/contracts/output/tests/coverage.test.mjs";
+import "../.claude/skills/ranger/tests/attach-evidence.test.mjs";
+import "../.claude/skills/ranger/tests/evaluations.test.mjs";

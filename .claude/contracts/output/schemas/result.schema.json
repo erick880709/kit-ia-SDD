@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:kit-ia:capability:0.1.0:result",
+  "title": "Resultado de una capacidad del kit",
+  "description": "Lo escribe el agente al aplicar una skill. La identidad de la invocación la asigna el host con el nombre del archivo; las métricas las deriva el validador.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contractVersion", "capabilityId", "status", "summary", "checks", "artifacts", "pending", "data"],
+  "properties": {
+    "contractVersion": {"const": "0.1.0"},
+    "capabilityId": {"$ref": "#/$defs/id"},
+    "status": {
+      "description": "Vocabulario de A2A TaskState (completed, input_required, failed) más partial: trabajo entregado con pendientes.",
+      "enum": ["completed", "partial", "input_required", "failed"]
+    },
+    "summary": {"$ref": "#/$defs/text"},
+    "checks": {"type": "array", "items": {"$ref": "#/$defs/check"}},
+    "artifacts": {"type": "array", "items": {"$ref": "#/$defs/artifact"}},
+    "pending": {"type": "array", "items": {"$ref": "#/$defs/pending"}},
+    "metrics": {"description": "Observaciones derivadas por el validador; omitir al producir el resultado.", "type": "array", "items": {"$ref": "#/$defs/metric"}},
+    "data": {"type": ["object", "null"], "description": "Campos mínimos de la capacidad, cerrados por su validador."}
+  },
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._-]*$"},
+    "text": {"type": "string", "minLength": 1, "pattern": "\\S"},
+    "check": {
+      "description": "Forma de grading.json de Agent Skills, con id estable para las reglas de la capacidad.",
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "passed", "evidence"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "passed": {"type": "boolean"},
+        "evidence": {"$ref": "#/$defs/text"}
+      }
+    },
+    "artifact": {
+      "description": "Forma del ResourceDescriptor de in-toto: una ubicación, mediaType y digest opcionales.",
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "kind"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"}, "kind": {"$ref": "#/$defs/id"},
+        "path": {"$ref": "#/$defs/text"}, "content": {"$ref": "#/$defs/text"},
+        "uri": {"type": "string", "format": "uri"},
+        "mediaType": {"type": "string", "pattern": "^[a-z]+/[a-zA-Z0-9.+-]+$"},
+        "digest": {
+          "type": "object", "additionalProperties": false, "required": ["sha256"],
+          "properties": {"sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+        }
+      },
+      "oneOf": [{"required": ["path"]}, {"required": ["content"]}, {"required": ["uri"]}]
+    },
+    "pending": {
+      "type": "object", "additionalProperties": false,
+      "required": ["description", "owner"],
+      "properties": {
+        "description": {"$ref": "#/$defs/text"},
+        "owner": {"$ref": "#/$defs/text"}
+      }
+    },
+    "metric": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "value", "unit", "source", "scope", "evidenceRefs"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "value": {"type": ["number", "boolean", "string", "null"]},
+        "unit": {"$ref": "#/$defs/text"},
+        "source": {"enum": ["declared_data", "machine_report", "model_evaluation"]},
+        "scope": {"$ref": "#/$defs/text"},
+        "evidenceRefs": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+        "numerator": {"type": ["integer", "null"], "minimum": 0},
+        "denominator": {"type": ["integer", "null"], "minimum": 0}
+      },
+      "dependentRequired": {"numerator": ["denominator"], "denominator": ["numerator"]}
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/contracts/output/hooks/stop.mjs"
+          }
+        ]
+      }
+    ]
+  }
+}

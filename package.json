@@ -1,0 +1,11 @@
+{
+  "name": "kit-ia",
+  "private": true,
+  "scripts": {
+    "test": "node --test",
+    "validate:skills": "node test/validate-skill-catalog.mjs"
+  },
+  "devDependencies": {
+    "yaml": "2.9.1"
+  }
+}

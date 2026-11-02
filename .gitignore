@@ -1,0 +1,9 @@
+__pycache__/
+*.py[cod]
+node_modules/
+# Estado local del hook de contratos (.claude/contracts/output/hooks/stop.mjs)
+.validacion-hook
+# Salidas de compilación (Gradle/Maven) de fixtures y plantillas
+.gradle/
+build/
+target/
