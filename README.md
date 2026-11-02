@@ -242,6 +242,7 @@ pipelines; `code-review` la revisa y `aegis` audita su seguridad.
 | `executive-routing` (`/sofia`) | Conversa con criterio ejecutivo, resuelve dudas y documentos de apoyo, y deriva al especialista cuando el encargo es de un dominio | Cualquier duda o encargo | Respuesta, documento de apoyo o derivación a la skill adecuada | `/sofia ¿por dónde empiezo con esta RFP?` |
 | `cronos` | Presentaciones HTML con marca PersonalSoft o en modo libre; propone la estructura antes de escribir y exporta a PPTX o PDF bajo pedido | Tema, contenido o resultados a presentar | `resources/presentations/<nombre>.html` | `/cronos presentación de resultados del sprint` |
 | `memoria` (`/memoria`) | Memoria y contexto del proyecto como grafo de conocimiento en `.memoria/`: cada skill registra un nodo de avance al terminar, con CLI, hook de Stop y workflow de GitHub | Estado del proyecto o una tarea terminada | Nodos en `.memoria/graph.json` e índice `.memoria/index.md` | `/memoria query --type decision` |
+| `obsidian` (`/obsidian`) | Puente a Obsidian: notas con Obsidian Flavored Markdown (wikilinks, embeds, callouts, properties), JSON Canvas y configuración del MCP; exporta la memoria `.memoria/` como vault navegable y grafo visual | `.memoria/graph.json` o un vault de Obsidian | Vault con `Inicio.md`, `notas/*.md` y `Memoria.canvas`; MCP de Obsidian configurado | `/obsidian exporta la memoria al vault y valida el canvas` |
 | `docx`, `pdf`, `pptx`, `xlsx` | Leer, crear y editar documentos de oficina; las usan otras skills como soporte | Archivo existente o contenido | El archivo en su formato | *"convierte este informe a Word"* |
 
 Para identidad visual y estilo editorial, aplica las plantillas, activos e
@@ -405,6 +406,9 @@ Integración con las automatizaciones:
   nodos pendientes sin bloquear la sesión.
 - **GitHub**: workflow `.github/workflows/memoria.yml` (instalado por `memoria init`) que valida
   el grafo y regenera el índice en cada push/PR.
+- **Obsidian**: la skill `obsidian` proyecta `.memoria/graph.json` a un vault navegable y a un
+  JSON Canvas (`node .claude/skills/obsidian/scripts/obsidian.mjs export`), para ver la memoria
+  como grafo visual; ver [la guía de la skill](.claude/skills/obsidian/SKILL.md).
 
 Ver la [guía de la skill](.claude/skills/memoria/SKILL.md) para el modelo de datos y las
 operaciones completas.
