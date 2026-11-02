@@ -260,3 +260,17 @@ de stakeholders. Incorporar después la respuesta sin renumerar el modelo.
 - Leer `references/format-profiles.md` después de determinar formato y antes de planificar la sesión.
 - Leer `references/artifact-contract.md` antes del harvesting o validación de archivos `ES-*`.
 - Leer `references/facilitation-guide.md` al conducir un taller o una ronda de validación con expertos.
+
+## Registro de avance en memoria
+
+Al terminar tu tarea, deja un nodo de avance en la memoria del proyecto (skill
+[`memoria`](../memoria/SKILL.md)) con el payload mínimo
+`{ "skill": "storming", "type": "avance", "title": "...", "summary": "..." }`:
+
+    node .claude/skills/memoria/scripts/memoria.mjs record \
+      --skill storming --type avance --title "..." --summary "..." \
+      --file <ruta del artefacto> [--link <id-del-nodo-previo>]
+
+O escribe ese payload como JSON en `.memoria/pending/<timestamp>.json`: el hook de Stop
+lo consolida en `.memoria/graph.json` al cerrar el turno. Si la misma tarea ya tiene nodo
+(mismo `skill` + `title`), actualízalo en vez de duplicarlo.

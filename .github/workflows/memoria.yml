@@ -1,0 +1,41 @@
+# Memoria del kit: valida la skill de memoria, el catálogo de skills y el grafo de
+# ejemplo del propio repositorio. Se ejecuta en push a main y en PRs.
+name: Memoria y catálogo
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validar kit y memoria
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Pruebas del kit
+        run: node --test
+
+      - name: Validar catálogo de skills
+        run: node test/validate-skill-catalog.mjs
+
+      - name: Validar grafo de memoria del kit
+        run: node .claude/skills/memoria/scripts/memoria.mjs validate
+
+      - name: Verificar índice de memoria al día
+        run: node .claude/skills/memoria/scripts/memoria.mjs report

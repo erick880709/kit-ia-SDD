@@ -497,3 +497,17 @@ Guardar estimación en `resources/estimation/`, con el mismo `{slug}` para todos
 Donde `{slug}` es un nombre corto en kebab-case de la necesidad/proyecto — usa el mismo slug del archivo de `epicureo` en `resources/functional/reqs/` si está disponible, para mantener trazabilidad entre la épica, el backlog (si existe) y la estimación.
 
 Crea la carpeta `resources/estimation/` si no existe.
+
+## Registro de avance en memoria
+
+Al terminar tu tarea, deja un nodo de avance en la memoria del proyecto (skill
+[`memoria`](../memoria/SKILL.md)) con el payload mínimo
+`{ "skill": "cupido", "type": "avance", "title": "...", "summary": "..." }`:
+
+    node .claude/skills/memoria/scripts/memoria.mjs record \
+      --skill cupido --type avance --title "..." --summary "..." \
+      --file <ruta del artefacto> [--link <id-del-nodo-previo>]
+
+O escribe ese payload como JSON en `.memoria/pending/<timestamp>.json`: el hook de Stop
+lo consolida en `.memoria/graph.json` al cerrar el turno. Si la misma tarea ya tiene nodo
+(mismo `skill` + `title`), actualízalo en vez de duplicarlo.

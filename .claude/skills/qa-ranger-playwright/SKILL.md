@@ -202,3 +202,17 @@ plantilla con Playwright real y verifica el CTRF local y de CI, fallos, omitidos
 reintentos, carpetas por proyecto, adjuntos y errores de copia y globales. Usa Node, Python y las dependencias
 instaladas de un proyecto Playwright: `node tests/native-ctrf.mjs --dependencies
 <proyecto-con-node_modules>`. Las fixtures funcionan sin aplicación ni navegador.
+
+## Registro de avance en memoria
+
+Al terminar tu tarea, deja un nodo de avance en la memoria del proyecto (skill
+[`memoria`](../memoria/SKILL.md)) con el payload mínimo
+`{ "skill": "qa-ranger-playwright", "type": "avance", "title": "...", "summary": "..." }`:
+
+    node .claude/skills/memoria/scripts/memoria.mjs record \
+      --skill qa-ranger-playwright --type avance --title "..." --summary "..." \
+      --file <ruta del artefacto> [--link <id-del-nodo-previo>]
+
+O escribe ese payload como JSON en `.memoria/pending/<timestamp>.json`: el hook de Stop
+lo consolida en `.memoria/graph.json` al cerrar el turno. Si la misma tarea ya tiene nodo
+(mismo `skill` + `title`), actualízalo en vez de duplicarlo.

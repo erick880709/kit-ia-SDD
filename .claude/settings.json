@@ -8,6 +8,14 @@
             "command": "node .claude/contracts/output/hooks/stop.mjs"
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/skills/memoria/scripts/memoria.mjs hook-stop"
+          }
+        ]
       }
     ]
   }

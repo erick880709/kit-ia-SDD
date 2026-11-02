@@ -276,3 +276,17 @@ Usa únicamente `INCOMPLETE`, `NEEDS REVIEW`, `READY FOR PROTOTYPE`,
 cada condición de Definition of Done en [validation-gates.md](references/validation-gates.md)
 pase, la matriz de trazabilidad esté vigente, el gate de cobertura pase, y no
 quede ningún hallazgo Critical o High sin justificar.
+
+## Registro de avance en memoria
+
+Al terminar tu tarea, deja un nodo de avance en la memoria del proyecto (skill
+[`memoria`](../memoria/SKILL.md)) con el payload mínimo
+`{ "skill": "iris", "type": "avance", "title": "...", "summary": "..." }`:
+
+    node .claude/skills/memoria/scripts/memoria.mjs record \
+      --skill iris --type avance --title "..." --summary "..." \
+      --file <ruta del artefacto> [--link <id-del-nodo-previo>]
+
+O escribe ese payload como JSON en `.memoria/pending/<timestamp>.json`: el hook de Stop
+lo consolida en `.memoria/graph.json` al cerrar el turno. Si la misma tarea ya tiene nodo
+(mismo `skill` + `title`), actualízalo en vez de duplicarlo.

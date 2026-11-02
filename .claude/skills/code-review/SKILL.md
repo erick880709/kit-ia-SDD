@@ -185,3 +185,17 @@ Para modificar o medir esta skill usa
 [evaluación conductual](references/behavioral-evaluation.md) y
 `scripts/evaluate_review.py`. Que el frontmatter sea válido no demuestra que la
 skill encuentre defectos reales ni que evite falsos positivos.
+
+## Registro de avance en memoria
+
+Al terminar tu tarea, deja un nodo de avance en la memoria del proyecto (skill
+[`memoria`](../memoria/SKILL.md)) con el payload mínimo
+`{ "skill": "code-review", "type": "avance", "title": "...", "summary": "..." }`:
+
+    node .claude/skills/memoria/scripts/memoria.mjs record \
+      --skill code-review --type avance --title "..." --summary "..." \
+      --file <ruta del artefacto> [--link <id-del-nodo-previo>]
+
+O escribe ese payload como JSON en `.memoria/pending/<timestamp>.json`: el hook de Stop
+lo consolida en `.memoria/graph.json` al cerrar el turno. Si la misma tarea ya tiene nodo
+(mismo `skill` + `title`), actualízalo en vez de duplicarlo.

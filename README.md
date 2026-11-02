@@ -25,7 +25,8 @@ mantienen en inglés cuando así lo usa la industria).
 7. [Convenciones de `resources/`](#7-convenciones-de-resources)
 8. [Integraciones MCP](#8-integraciones-mcp)
 9. [Validar el kit](#9-validar-el-kit)
-10. [Documentación adicional](#10-documentación-adicional)
+10. [Memoria del proyecto](#10-memoria-del-proyecto)
+11. [Documentación adicional](#11-documentación-adicional)
 
 ---
 
@@ -61,6 +62,9 @@ mkdir -p resources   # las subcarpetas las crea cada skill cuando las necesita
 
 Para la familia QA, copia también el hook de `.claude/settings.json` que valida los
 resultados al terminar cada turno (ver la [guía QA](.claude/doc/ranger/README.md)).
+Para memoria del proyecto, ejecuta en el destino
+`node .claude/skills/memoria/scripts/memoria.mjs init` (crea `.memoria/`, enlaza el hook
+de Stop y copia el workflow de GitHub; ver [§10](#10-memoria-del-proyecto)).
 Para instalar solo Builder en otro proyecto, usa su instalador
 (`scripts/install_builder.py`, ver [su README](.claude/skills/builder/README.md#11-instalar-en-otro-proyecto)).
 
@@ -237,6 +241,7 @@ pipelines; `code-review` la revisa y `aegis` audita su seguridad.
 |---|---|---|---|---|
 | `executive-routing` (`/sofia`) | Conversa con criterio ejecutivo, resuelve dudas y documentos de apoyo, y deriva al especialista cuando el encargo es de un dominio | Cualquier duda o encargo | Respuesta, documento de apoyo o derivación a la skill adecuada | `/sofia ¿por dónde empiezo con esta RFP?` |
 | `cronos` | Presentaciones HTML con marca PersonalSoft o en modo libre; propone la estructura antes de escribir y exporta a PPTX o PDF bajo pedido | Tema, contenido o resultados a presentar | `resources/presentations/<nombre>.html` | `/cronos presentación de resultados del sprint` |
+| `memoria` (`/memoria`) | Memoria y contexto del proyecto como grafo de conocimiento en `.memoria/`: cada skill registra un nodo de avance al terminar, con CLI, hook de Stop y workflow de GitHub | Estado del proyecto o una tarea terminada | Nodos en `.memoria/graph.json` e índice `.memoria/index.md` | `/memoria query --type decision` |
 | `docx`, `pdf`, `pptx`, `xlsx` | Leer, crear y editar documentos de oficina; las usan otras skills como soporte | Archivo existente o contenido | El archivo en su formato | *"convierte este informe a Word"* |
 
 Para identidad visual y estilo editorial, aplica las plantillas, activos e
@@ -366,7 +371,42 @@ medir sus decisiones en proyectos aislados.
 
 ---
 
-## 10. Documentación adicional
+## 10. Memoria del proyecto
+
+La skill **`memoria`** mantiene la memoria y el contexto de cualquier proyecto como un
+**grafo de conocimiento** persistente en `.memoria/`, rastreable en git y sin base de datos.
+
+| Elemento | Descripción |
+|---|---|
+| `.memoria/graph.json` | Fuente de verdad: nodos (avances, decisiones, hitos, estado, notas, tareas) y enlaces |
+| `.memoria/index.md` | Índice humano generado, legible y grep-able |
+| `.memoria/pending/` | Nodos que las skills dejan al terminar; el hook de Stop los consolida |
+
+**Cada skill registra un nodo al terminar su tarea** (ver la sección "Registro de avance en
+memoria" al final de cada `SKILL.md`): escribe un payload en `.memoria/pending/` o llama a
+`memoria.mjs record`, y el hook de Stop lo consolida en el grafo.
+
+```bash
+node .claude/skills/memoria/scripts/memoria.mjs init      # inicializa .memoria/ + hook + workflow
+node .claude/skills/memoria/scripts/memoria.mjs record ... # crea/actualiza un nodo
+node .claude/skills/memoria/scripts/memoria.mjs query ...  # consulta
+node .claude/skills/memoria/scripts/memoria.mjs merge ...  # desduplica y archiva
+node .claude/skills/memoria/scripts/memoria.mjs validate   # integridad del grafo
+```
+
+Integración con las automatizaciones:
+
+- **Claude**: comando `/memoria` y hook de Stop en `.claude/settings.json` que consolida los
+  nodos pendientes sin bloquear la sesión.
+- **GitHub**: workflow `.github/workflows/memoria.yml` (instalado por `memoria init`) que valida
+  el grafo y regenera el índice en cada push/PR.
+
+Ver la [guía de la skill](.claude/skills/memoria/SKILL.md) para el modelo de datos y las
+operaciones completas.
+
+---
+
+## 11. Documentación adicional
 
 | Tema | Dónde |
 |---|---|
@@ -378,3 +418,4 @@ medir sus decisiones en proyectos aislados.
 | Familia QA, contratos y validación | [.claude/doc/ranger/README.md](.claude/doc/ranger/README.md) y [validacion.md](.claude/doc/ranger/validacion.md) |
 | Agentes disponibles | [.claude/doc/catalogo-agentes.md](.claude/doc/catalogo-agentes.md) |
 | Enrutamiento y handoffs entre skills | [.claude/doc/matriz-enrutamiento-y-handoffs.md](.claude/doc/matriz-enrutamiento-y-handoffs.md) |
+| Guía de la skill memoria | [.claude/skills/memoria/SKILL.md](.claude/skills/memoria/SKILL.md) |

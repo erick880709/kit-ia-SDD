@@ -375,3 +375,17 @@ pregunta cuya respuesta ya esté en los manifiestos, documentos o repositorio.
 - Setup de Azure DevOps (Variable Groups/Environments/Branch Policy vía REST,
   comportamiento por defecto cuando `devops_platform: azure_devops`):
   [`references/azure-devops-setup.md`](references/azure-devops-setup.md)
+
+## Registro de avance en memoria
+
+Al terminar tu tarea, deja un nodo de avance en la memoria del proyecto (skill
+[`memoria`](../memoria/SKILL.md)) con el payload mínimo
+`{ "skill": "vulcano-bob", "type": "avance", "title": "...", "summary": "..." }`:
+
+    node .claude/skills/memoria/scripts/memoria.mjs record \
+      --skill vulcano-bob --type avance --title "..." --summary "..." \
+      --file <ruta del artefacto> [--link <id-del-nodo-previo>]
+
+O escribe ese payload como JSON en `.memoria/pending/<timestamp>.json`: el hook de Stop
+lo consolida en `.memoria/graph.json` al cerrar el turno. Si la misma tarea ya tiene nodo
+(mismo `skill` + `title`), actualízalo en vez de duplicarlo.

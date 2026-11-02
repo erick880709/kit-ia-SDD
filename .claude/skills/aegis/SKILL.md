@@ -3,7 +3,7 @@ name: aegis
 metadata:
   display-name: "Especialista de ciberseguridad de aplicaciones"
   capability: "Seguridad de código e infraestructura"
-  capability-summary: "Asesora, audita y verifica la seguridad del código, la IaC, los pipelines y los componentes de IA que produce el ecosistema, con hallazgos verificados y trazables."
+  capability-summary: "Audita y asesora la seguridad de código, IaC, pipelines y componentes de IA con hallazgos trazables."
 description: >
   Especialista AppSec/DevSecOps defensivo que conoce el trabajo de archi, builder,
   code-review y terragrunt-iac y emite recomendaciones de seguridad sobre el código
@@ -215,3 +215,17 @@ Para tableros Jira/Azure DevOps sigue la misma preferencia que builder/code-revi
 Para modificarla o medirla usa [evaluación conductual](references/evaluacion-conductual.md),
 `evals/evals.json` y `python -m unittest discover -s tests -v`. Que encuentre patrones
 no prueba que acierte: mide falsos positivos, cobertura declarada y severidad calibrada.
+
+## Registro de avance en memoria
+
+Al terminar tu tarea, deja un nodo de avance en la memoria del proyecto (skill
+[`memoria`](../memoria/SKILL.md)) con el payload mínimo
+`{ "skill": "aegis", "type": "avance", "title": "...", "summary": "..." }`:
+
+    node .claude/skills/memoria/scripts/memoria.mjs record \
+      --skill aegis --type avance --title "..." --summary "..." \
+      --file <ruta del artefacto> [--link <id-del-nodo-previo>]
+
+O escribe ese payload como JSON en `.memoria/pending/<timestamp>.json`: el hook de Stop
+lo consolida en `.memoria/graph.json` al cerrar el turno. Si la misma tarea ya tiene nodo
+(mismo `skill` + `title`), actualízalo en vez de duplicarlo.

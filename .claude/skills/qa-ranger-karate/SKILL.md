@@ -170,3 +170,17 @@ La conversión no sustituye la ejecución ni acredita evidencia que no existe.
 Para adjuntos externos puedes copiar y adaptar `../ranger/scripts/attach-evidence.mjs`:
 organiza primero los archivos reales en `resources/qa/test-results/<runId>/<CASE-ID>/`.
 Este enlace no modifica los runners ni captura evidencia adicional.
+
+## Registro de avance en memoria
+
+Al terminar tu tarea, deja un nodo de avance en la memoria del proyecto (skill
+[`memoria`](../memoria/SKILL.md)) con el payload mínimo
+`{ "skill": "qa-ranger-karate", "type": "avance", "title": "...", "summary": "..." }`:
+
+    node .claude/skills/memoria/scripts/memoria.mjs record \
+      --skill qa-ranger-karate --type avance --title "..." --summary "..." \
+      --file <ruta del artefacto> [--link <id-del-nodo-previo>]
+
+O escribe ese payload como JSON en `.memoria/pending/<timestamp>.json`: el hook de Stop
+lo consolida en `.memoria/graph.json` al cerrar el turno. Si la misma tarea ya tiene nodo
+(mismo `skill` + `title`), actualízalo en vez de duplicarlo.

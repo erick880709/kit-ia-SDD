@@ -60,6 +60,13 @@ or presentation logic. For visual identity and editorial style, follow the templ
 assets, and instructions supplied by the user; do not treat repository defaults as approved
 corporate policy.
 
+`memoria` is the transversal memory/context skill: every skill records a progress node in the
+project's `.memoria/` knowledge graph when it finishes a task (payload in `.memoria/pending/` or
+`node .claude/skills/memoria/scripts/memoria.mjs record ...`), and the Stop hook in
+`.claude/settings.json` consolidates pending nodes without blocking the session. The kit's GitHub
+workflow validates `.memoria/graph.json`; `memoria init` installs the hook and a per-project
+workflow. See `.claude/skills/memoria/SKILL.md`.
+
 ## `resources/` conventions
 
 `resources/` is shared state, not scratch space — treat existing files as input to the next stage, not

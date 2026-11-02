@@ -3,7 +3,7 @@ name: dba
 metadata:
   display-name: "Experto en bases de datos"
   capability: "Bases de datos relacionales y no relacionales"
-  capability-summary: "Diseña, revisa, optimiza, migra y opera bases de datos relacionales y NoSQL, y valida las decisiones de datos de archi, builder y code-review con evidencia."
+  capability-summary: "Diseña, revisa, optimiza, migra y opera bases de datos relacionales y NoSQL con evidencia."
 description: >
   DBA y arquitecto de datos senior para motores relacionales (PostgreSQL, Oracle,
   SQL Server, MySQL/MariaDB, Aurora/RDS, Azure SQL, Cloud SQL) y no relacionales
@@ -205,3 +205,17 @@ van en el repositorio, reportes ni memoria.
 
 Para modificarla o medirla usa [evaluación conductual](references/evaluacion-conductual.md),
 `evals/evals.json` y `python -m unittest discover -s tests -v`.
+
+## Registro de avance en memoria
+
+Al terminar tu tarea, deja un nodo de avance en la memoria del proyecto (skill
+[`memoria`](../memoria/SKILL.md)) con el payload mínimo
+`{ "skill": "dba", "type": "avance", "title": "...", "summary": "..." }`:
+
+    node .claude/skills/memoria/scripts/memoria.mjs record \
+      --skill dba --type avance --title "..." --summary "..." \
+      --file <ruta del artefacto> [--link <id-del-nodo-previo>]
+
+O escribe ese payload como JSON en `.memoria/pending/<timestamp>.json`: el hook de Stop
+lo consolida en `.memoria/graph.json` al cerrar el turno. Si la misma tarea ya tiene nodo
+(mismo `skill` + `title`), actualízalo en vez de duplicarlo.

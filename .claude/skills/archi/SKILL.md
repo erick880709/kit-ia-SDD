@@ -273,3 +273,17 @@ Aplica los "Criterios de cierre por artefacto" de la plantilla como contrato de 
 - Verifica que `19` defina reglas `CC-xxx` con automatización, umbral, owner, estado, evidencia de definición y evidencia de ejecución; que cada `14.xx` con código las aplique o justifique; que Caso C separe AS-IS/TO-BE; y que `25` no declare una regla `Aplicada` o `Validada` sin evidencia reproducible.
 - Verifica que `19.1` no duplique la estrategia DevSecOps de Vulcano: puede exigir una clase de evidencia, pero no seleccionar scanners, comandos, stages, severidades de bloqueo, SLA operativos, formato SBOM, firma/provenance ni motores de policy as code.
 - Genera `00` al final y mantenlo entre 100 y 150 líneas: propósito, resumen, stakeholders, estado de aprobación e índice.
+
+## Registro de avance en memoria
+
+Al terminar tu tarea, deja un nodo de avance en la memoria del proyecto (skill
+[`memoria`](../memoria/SKILL.md)) con el payload mínimo
+`{ "skill": "archi", "type": "avance", "title": "...", "summary": "..." }`:
+
+    node .claude/skills/memoria/scripts/memoria.mjs record \
+      --skill archi --type avance --title "..." --summary "..." \
+      --file <ruta del artefacto> [--link <id-del-nodo-previo>]
+
+O escribe ese payload como JSON en `.memoria/pending/<timestamp>.json`: el hook de Stop
+lo consolida en `.memoria/graph.json` al cerrar el turno. Si la misma tarea ya tiene nodo
+(mismo `skill` + `title`), actualízalo en vez de duplicarlo.

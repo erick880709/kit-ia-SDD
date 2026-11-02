@@ -397,3 +397,17 @@ Never narrate the mechanism (see "Never name internal tooling" in Key Rules) —
 - **Key differentiators:** IDP/Backstage platform, centralized MCP Server, Power BI measurement dashboard, 3-level observability framework (Fundacional → Actividad → Performance)
 - **Main recommendation:** Azure DevOps or Jira for task-level AI attribution (replaces Excel + emails)
 - **Contact:** ask the user for the presenter's name, title and email for the portada/closing slide — never hardcode, guess, or infer any of these for a specific person. If only some fields are given, show only those and leave the rest out (see KEY RULES #8).
+
+## Registro de avance en memoria
+
+Al terminar tu tarea, deja un nodo de avance en la memoria del proyecto (skill
+[`memoria`](../memoria/SKILL.md)) con el payload mínimo
+`{ "skill": "cronos", "type": "avance", "title": "...", "summary": "..." }`:
+
+    node .claude/skills/memoria/scripts/memoria.mjs record \
+      --skill cronos --type avance --title "..." --summary "..." \
+      --file <ruta del artefacto> [--link <id-del-nodo-previo>]
+
+O escribe ese payload como JSON en `.memoria/pending/<timestamp>.json`: el hook de Stop
+lo consolida en `.memoria/graph.json` al cerrar el turno. Si la misma tarea ya tiene nodo
+(mismo `skill` + `title`), actualízalo en vez de duplicarlo.

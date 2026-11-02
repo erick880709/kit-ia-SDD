@@ -1,5 +1,9 @@
 ---
 name: terragrunt-iac
+metadata:
+  display-name: "Experto en Infraestructura como Código"
+  capability: "Infraestructura como código"
+  capability-summary: "Diseña, genera, revisa, migra y automatiza IaC Terragrunt 1.x y sus pipelines de CI/CD."
 description: Experto en Terragrunt 1.x (Gruntwork) sobre OpenTofu/Terraform para diseñar, generar, revisar, migrar y automatizar infraestructura como código. Usa esta skill siempre que el usuario mencione Terragrunt, terragrunt.hcl, terragrunt.stack.hcl, root.hcl, units, stacks, infrastructure-live, infrastructure-catalog, run --all, run-all, dependency/mock_outputs, remote_state, include, _envcommon, Terragrunt Scale, Gruntwork Pipelines, gruntwork-io/terragrunt-action, o pida pipelines de IaC (GitHub Actions, Azure DevOps, GitLab) que ejecuten plan/apply sobre múltiples módulos, filtrado por cambios de Git (--filter, --filter-affected), migración de Terragrunt 0.x a 1.x, o estructurar repos multi-cuenta/multi-región/multi-ambiente para AWS, Azure o GCP — aunque no diga "Terragrunt" explícitamente pero hable de "mantener DRY el estado remoto/providers de Terraform" o "orquestar muchos módulos de Terraform".
 ---
 
@@ -110,3 +114,17 @@ Estos principios salen de las mejores prácticas de Gruntwork y evitan los error
 | `resources/09-migracion-0x-a-1x.md` | Tablas de equivalencias y plan de migración |
 | `resources/10-testing-y-calidad.md` | Terratest de catálogo, pre-commit, tflint, `hcl validate`, convenciones |
 | `resources/11-checklist-revision.md` | Checklist de revisión por severidad y antipatrones |
+
+## Registro de avance en memoria
+
+Al terminar tu tarea, deja un nodo de avance en la memoria del proyecto (skill
+[`memoria`](../memoria/SKILL.md)) con el payload mínimo
+`{ "skill": "terragrunt-iac", "type": "avance", "title": "...", "summary": "..." }`:
+
+    node .claude/skills/memoria/scripts/memoria.mjs record \
+      --skill terragrunt-iac --type avance --title "..." --summary "..." \
+      --file <ruta del artefacto> [--link <id-del-nodo-previo>]
+
+O escribe ese payload como JSON en `.memoria/pending/<timestamp>.json`: el hook de Stop
+lo consolida en `.memoria/graph.json` al cerrar el turno. Si la misma tarea ya tiene nodo
+(mismo `skill` + `title`), actualízalo en vez de duplicarlo.
