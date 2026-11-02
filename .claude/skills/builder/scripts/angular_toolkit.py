@@ -135,7 +135,7 @@ def projects_of(root):
         except ValueError:
             continue
         name = data.get('name') or project_json.parent.name
-        projects.setdefault(name, {'root': str(project_json.parent.relative_to(root)),
+        projects.setdefault(name, {'root': project_json.parent.relative_to(root).as_posix(),
                                    'type': data.get('projectType'), 'targets': data.get('targets', {}),
                                    'schematics': data.get('generators', {}), 'prefix': data.get('prefix'),
                                    'tags': data.get('tags', [])})
@@ -200,10 +200,10 @@ def discover(path):
     agent_files = [n for n in AGENT_FILES if (root / n).exists()]
     for directory in AGENT_DIRS:
         if (root / directory).is_dir():
-            agent_files += sorted(str(p.relative_to(root)) for p in (root / directory).rglob('*') if p.is_file())
-    nested = sorted(str(p.relative_to(root)) for p in root.glob('**/CLAUDE.md')
+            agent_files += sorted(p.relative_to(root).as_posix() for p in (root / directory).rglob('*') if p.is_file())
+    nested = sorted(p.relative_to(root).as_posix() for p in root.glob('**/CLAUDE.md')
                     if not any(part in SKIP_DIRS for part in p.relative_to(root).parts) and p.parent != root)
-    nested += sorted(str(p.relative_to(root)) for p in root.glob('**/AGENTS.md')
+    nested += sorted(p.relative_to(root).as_posix() for p in root.glob('**/AGENTS.md')
                      if not any(part in SKIP_DIRS for part in p.relative_to(root).parts) and p.parent != root)
     eslint = next((n for n in ('eslint.config.js', 'eslint.config.mjs', 'eslint.config.cjs', 'eslint.config.ts',
                                '.eslintrc.json', '.eslintrc.js', '.eslintrc') if (root / n).exists()), None)
@@ -321,7 +321,7 @@ def unstable_imports(root, node_modules=None, include_specs=False):
                 for raw in names_part.split(','):
                     symbol = raw.strip().split(' as ')[0].replace('type ', '').strip()
                     if symbol:
-                        usages.setdefault((package, symbol), []).append(str(Path(current, name).relative_to(root)))
+                        usages.setdefault((package, symbol), []).append(Path(current, name).relative_to(root).as_posix())
     findings = []
     for (package, symbol), files in sorted(usages.items()):
         status = api_status(node_modules, [symbol], [package])[symbol]['status']

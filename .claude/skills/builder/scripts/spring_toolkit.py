@@ -225,9 +225,9 @@ def discover(path):
     else:
         stack = 'unknown'
     agent = [n for n in AGENT_FILES if (root / n).exists()]
-    agent += sorted(str(p.relative_to(root)) for p in root.glob('**/CLAUDE.md')
+    agent += sorted(p.relative_to(root).as_posix() for p in root.glob('**/CLAUDE.md')
                     if p.parent != root and not any(x in SKIP_DIRS for x in p.relative_to(root).parts))
-    configs = sorted(str(p.relative_to(root)) for p in root.glob('**/src/main/resources/application*.*')
+    configs = sorted(p.relative_to(root).as_posix() for p in root.glob('**/src/main/resources/application*.*')
                      if not any(x in SKIP_DIRS for x in p.relative_to(root).parts))
     return {
         'java_project': True,
