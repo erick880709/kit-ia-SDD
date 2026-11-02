@@ -35,7 +35,8 @@ mantienen en inglés cuando así lo usa la industria).
 
 | Requisito | Para qué | Obligatorio |
 |---|---|---|
-| [Claude Code](https://docs.claude.com/claude-code) (CLI, extensión de VS Code/JetBrains o app de escritorio) | Ejecutar las skills | Sí |
+| [Claude Code](https://docs.claude.com/claude-code) (CLI, extensión de VS Code/JetBrains o app de escritorio) | Ejecutar las skills; `.claude/` es la fuente canónica | Sí (o GitHub Copilot) |
+| [GitHub Copilot](https://docs.github.com/copilot) (VS Code / JetBrains / chat) | Ejecutar las skills y los custom agents desde `.claude/skills/` y `.github/agents/` | Alternativa; ver [§2.1](#21-usar-el-kit-con-github-copilot) |
 | Node.js 22 o posterior | Validadores del contrato QA, reportes de ejecución y pruebas del kit | Para QA y para validar el kit |
 | Python 3.10+ (3.11+ para Builder) | Scripts de `archi`, `builder`, `code-review`, `takumi`, `cupido` y las skills QA | Según la skill |
 | Herramientas del stack destino (JDK, Gradle/Maven, Node, Go, Angular CLI, navegadores…) | Compilar y ejecutar las pruebas del proyecto | Para `builder`, `code-review` y QA |
@@ -69,11 +70,63 @@ de Stop y copia el workflow de GitHub; ver [§11](#11-memoria-del-proyecto)).
 Para instalar solo Builder en otro proyecto, usa su instalador
 (`scripts/install_builder.py`, ver [su README](.claude/skills/builder/README.md#11-instalar-en-otro-proyecto)).
 
+### 2.1 Usar el kit con GitHub Copilot
+
+GitHub Copilot no necesita ninguna generación adicional: el repositorio ya trae las piezas
+que Copilot lee. Copia `.claude/` y `.github/` a la raíz del proyecto destino (o trabaja
+directamente sobre este repositorio):
+
+```bash
+# Desde la raíz del repositorio destino
+cp -r /ruta/a/kit-ia/.claude   ./.claude   # skills + contratos + agentes canónicos
+cp -r /ruta/a/kit-ia/.github   ./.github   # copilot-instructions.md + custom agents + workflow de memoria
+mkdir -p resources
+```
+
+| Mecanismo de Copilot | De dónde lo lee | Qué ofrece |
+|---|---|---|
+| **Agent Skills** | `.claude/skills/*/SKILL.md` (ruta legacy oficial) | Las 33 skills se activan solas por su `description` al pedirlas en lenguaje natural |
+| **Custom Agents** | `.github/agents/*.agent.md` (espejo de `.claude/agents/`) | Los 16 agentes (`builder`, `archi`, `sofia`, `memoria`…) en el selector de agentes |
+| **Instrucciones globales** | `.github/copilot-instructions.md` | Contexto del pipeline, convenciones y memoria del proyecto |
+
+Cómo usarlo:
+
+1. Abre la carpeta del proyecto en VS Code (o el cliente de Copilot) y pide la tarea en
+   lenguaje natural: *"desglosa esta épica en historias de usuario"* activa `specter`;
+   *"implementa esta HU"* activa `builder`. En Copilot no hay comandos `/…`: se pide por
+   nombre o descripción.
+2. O elige un agente en el selector (`builder`, `archi`, `sofia`…): cada agente carga su
+   skill canónica y aplica los mismos límites que en Claude (ver [§6](#6-agentes-del-kit)).
+3. La sincronía `.claude/agents/` ↔ `.github/agents/` la valida
+   `node test/validate-github-agents-sync.mjs`: todo agente con `providers: [github]` debe
+   ser idéntico en ambas carpetas. No edites `.github/agents/` a mano; edita `.claude/agents/`
+   y deja que el espejo se mantenga por el check.
+
+Diferencias con Claude Code:
+
+- El **hook de Stop** que consolida `.memoria/pending/` es específico de Claude Code. En
+  Copilot consolida a mano con `node .claude/skills/memoria/scripts/memoria.mjs promote`,
+  o deja que el workflow `.github/workflows/memoria.yml` valide el grafo en CI (funciona
+  igual con cualquier proveedor).
+- `builder`, `code-review` y `ranger` siguen preguntando **una vez** si quieres conectar
+  Jira/Azure DevOps, igual que en Claude.
+
+### 2.2 Otras IAs (Codex, OpenCode)
+
+La fuente canónica es `.claude/` (skills, agentes y hooks). El diseño de adaptadores para
+**OpenAI Codex** (`.codex/` y `.agents/`) y **OpenCode** está documentado en
+[`.claude/doc/carpetas-por-proveedor.md`](.claude/doc/carpetas-por-proveedor.md), pero hoy
+esos adaptadores no están generados en el repositorio: el soporte instalado y validado es
+**Claude Code** (`.claude/`) y **GitHub Copilot** (`.github/`). Para habilitar Codex,
+restituye `scripts_agents/sync_agent_adapters.py` siguiendo ese documento y regenera los
+adaptadores desde `.claude/`.
+
 ---
 
 ## 3. Cómo ejecutar una skill
 
-Abre Claude Code en la raíz del repositorio destino y usa cualquiera de estas formas:
+Abre Claude Code (o GitHub Copilot; ver [§2.1](#21-usar-el-kit-con-github-copilot)) en la
+raíz del repositorio destino y usa cualquiera de estas formas:
 
 | Forma | Ejemplo | Cuándo |
 |---|---|---|
@@ -81,6 +134,9 @@ Abre Claude Code en la raíz del repositorio destino y usa cualquiera de estas f
 | **Lenguaje natural** | *"extrae los requerimientos de esta RFP"* | Cada skill declara en su `SKILL.md` cuándo se activa sola |
 | **Agente** | Elegir el agente `archi`, `builder`, `iris`, `sofia`… en el selector | Sesión dedicada a un rol; el agente carga la skill canónica y aplica sus límites (ver [§6](#6-agentes-del-kit)) |
 | **Sin saber por dónde empezar** | `/sofia necesito estimar y construir un módulo de pagos` | Sofía te orienta y deriva al especialista |
+
+En GitHub Copilot no hay comandos `/…`: pide por lenguaje natural o elige un agente en el
+selector (detalle en [§2.1](#21-usar-el-kit-con-github-copilot)).
 
 Reglas útiles:
 
