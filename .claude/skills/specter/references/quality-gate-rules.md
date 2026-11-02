@@ -101,7 +101,7 @@ obligatorias pasan; si no, `NEEDS_REFINEMENT`.
 
 | Regla | Condición |
 |---|---|
-| Discriminador | `type` distinto del esperado (`historia_usuario` / `tarea_tecnica`) |
+| Discriminador | `type` distinto del esperado (`Historia de Usuario` / `Tarea Técnica`) |
 | Enum | `status`, `priority` o `points` con valor fuera del vocabulario |
 | Criterio | criterio de aceptación sin `id` o sin resultado observable |
 | Duplicados | `acceptance_criteria` con `id` repetido |

@@ -35,7 +35,7 @@
     },
     {
       "id": "epic-ambigua",
-      "name": "?pica ambigua",
+      "name": "Épica ambigua",
       "artifacts": [
         {
           "id": "HU-02",
@@ -48,7 +48,7 @@
     },
     {
       "id": "epic-completa",
-      "name": "?pica completa",
+      "name": "Épica completa",
       "artifacts": [
         {
           "id": "HU-01",
@@ -114,7 +114,7 @@
     },
     {
       "id": "integracion-api-externa",
-      "name": "Integraci?n con API externa",
+      "name": "Integración con API externa",
       "artifacts": [
         {
           "id": "TT-06",
@@ -169,11 +169,11 @@
       "value": 1,
       "formula": "CA observables / CA totales"
     },
-    "duplicate_detection_rate": {
+    "duplicate_detection": {
       "value": 1,
       "formula": "duplicados detectados / duplicados inyectados"
     },
-    "ambiguity_detection_rate": {
+    "ambiguity_detection": {
       "value": 1,
       "formula": "ambigüedades detectadas / ambigüedades inyectadas"
     },

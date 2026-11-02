@@ -21,7 +21,7 @@ function fixtureDir() {
 
 function hu(id, reqIds = ["RF-001"], deps = []) {
   return {
-    id, type: "historia_usuario", title: "HU", status: "ready",
+    id, type: "Historia de Usuario", title: "HU", status: "ready",
     schema_version: "0.1.0", artifact_version: "1",
     created_at: "2026-11-02T15:00:00Z", updated_at: "2026-11-02T15:00:00Z",
     business_value: "Valor", user_story: { role: "u", action: "a", benefit: "b" },
@@ -33,7 +33,7 @@ function hu(id, reqIds = ["RF-001"], deps = []) {
 
 function tt(id, parentHuId) {
   return {
-    id, type: "tarea_tecnica", title: "TT", parent_hu_id: parentHuId, status: "ready",
+    id, type: "Tarea Técnica", title: "TT", parent_hu_id: parentHuId, status: "ready",
     schema_version: "0.1.0", artifact_version: "1",
     created_at: "2026-11-02T15:00:00Z", updated_at: "2026-11-02T15:00:00Z",
     technical_objective: "Objetivo", implementation_steps: ["Paso 1"],

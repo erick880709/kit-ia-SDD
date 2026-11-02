@@ -19,10 +19,10 @@ Los artefactos 1.0 (Markdown con frontmatter mínimo) **siguen siendo legibles**
 
 | 1.0 | 2.0 |
 |---|---|
-| `type: Historia de Usuario` | `type: historia_usuario` |
-| `type: Tarea Técnica` | `type: tarea_tecnica` |
-| `epic: CLAVE` | `epic_id: CLAVE` |
-| `priority: Alta/Media/Baja` | `priority: alta/media/baja` |
+| `type: Historia de Usuario` | `type: Historia de Usuario` (sin cambio) |
+| `type: Tarea Técnica` | `type: Tarea Técnica` (sin cambio) |
+| `epic: CLAVE` | `epic: CLAVE` (conservado; `epic_id` queda como alias) |
+| `priority: Alta/Media/Baja` | `priority: Alta/Media/Baja` (sin cambio) |
 | `points: N` | `points: N` (se conserva; el gate exige ≤ 8) |
 | `Criterios de Aceptación` (checklist) | `acceptance_criteria[]` con `id` y `scenario`/`then` |
 | `Criterios de Done` (TT) | `definition_of_done[]` |

@@ -237,6 +237,7 @@ parent (épica/feature).
 - `references/breakdown-guide.md` — heurísticas de descomposición (INVEST, HU vs TT, patrones, CA).
 - `references/ears.md` — notación EARS para redactar requisitos verificables.
 - `references/mcp-boards.md` — configuración del MCP de Jira y Azure DevOps (credenciales mínimas).
+- `templates/hu.md` y `templates/tt.md` — plantillas Markdown separadas de HU y TT.
 - `contracts/user-story.schema.json` y `contracts/technical-task.schema.json` — contratos formales.
 - `docs/specter-2.0/` — arquitectura, contratos, gate y evaluación (documentación del proyecto).
 

@@ -1,6 +1,6 @@
 {
   "id": "integracion-api-externa",
-  "name": "Integraci?n con API externa",
+  "name": "Integración con API externa",
   "description": "Componente no identificado: la TT queda en refinamiento sin inventar el componente.",
   "input": {
     "epic": "Integrar pagos con proveedor externo."
@@ -15,15 +15,15 @@
       "expected_state": "NEEDS_REFINEMENT",
       "data": {
         "id": "TT-06",
-        "type": "tarea_tecnica",
-        "title": "Tarea t?cnica",
+        "type": "Tarea Técnica",
+        "title": "Tarea técnica",
         "parent_hu_id": "HU-05",
         "status": "ready",
         "schema_version": "0.1.0",
         "artifact_version": "1",
         "created_at": "2026-11-02T15:00:00Z",
         "updated_at": "2026-11-02T15:00:00Z",
-        "technical_objective": "Objetivo t?cnico.",
+        "technical_objective": "Objetivo técnico.",
         "implementation_steps": [
           "Paso 1"
         ],

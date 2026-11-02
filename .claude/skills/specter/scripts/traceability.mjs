@@ -22,8 +22,8 @@ function loadArtifacts(root) {
     if (!name.endsWith(".md")) continue;
     try {
       const obj = parseFrontmatter(file);
-      if (obj.type === "tarea_tecnica" || name.startsWith("tt-")) tts.push({ ...obj, _file: file });
-      else if (obj.type === "historia_usuario" || name.startsWith("hu-")) hus.push({ ...obj, _file: file });
+      if (obj.type === "Tarea Técnica" || name.startsWith("tt-")) tts.push({ ...obj, _file: file });
+      else if (obj.type === "Historia de Usuario" || name.startsWith("hu-")) hus.push({ ...obj, _file: file });
     } catch {
       /* archivo sin frontmatter: se omite */
     }
@@ -38,18 +38,27 @@ function main() {
   const root = rootIdx !== -1 ? path.resolve(args[rootIdx + 1]) : process.cwd();
   const reqIdx = args.indexOf("--req-ids");
   const reqIds = reqIdx !== -1 ? args[reqIdx + 1].split(",").map(s => s.trim()).filter(Boolean) : [];
+  const tcIdx = args.indexOf("--tc-ids");
+  const tcIds = tcIdx !== -1 ? args[tcIdx + 1].split(",").map(s => s.trim()).filter(Boolean) : [];
 
   const { hus, tts } = loadArtifacts(root);
   const huIds = new Set(hus.map(h => h.id));
+  const ttIds = new Set(tts.map(t => t.id));
   const findings = [];
 
   for (const h of hus) {
-    if (!h.epic_id && !(Array.isArray(h.requirement_ids) && h.requirement_ids.length)) {
+    if (!h.epic && !h.epic_id && !(Array.isArray(h.requirement_ids) && h.requirement_ids.length)) {
       findings.push({ severity: "high", kind: "HU sin origen", id: h.id, file: path.relative(root, h._file) });
     }
     for (const dep of h.dependencies || []) {
-      if (!huIds.has(dep) && !tts.some(t => t.id === dep)) {
+      if (!huIds.has(dep) && !ttIds.has(dep)) {
         findings.push({ severity: "high", kind: "referencia rota en dependencies", id: h.id, ref: dep });
+      }
+    }
+    // Referencias a casos de prueba que no existen en la lista provista.
+    for (const tc of h.test_references || []) {
+      if (tcIds.length && !tcIds.includes(tc)) {
+        findings.push({ severity: "high", kind: "caso de prueba inexistente", id: h.id, ref: tc });
       }
     }
   }
@@ -59,11 +68,11 @@ function main() {
       if (!huIds.has(t.parent_hu_id)) {
         findings.push({ severity: "critical", kind: "TT con HU padre inexistente", id: t.id, ref: t.parent_hu_id, file: path.relative(root, t._file) });
       }
-    } else if (!t.epic_id) {
-      findings.push({ severity: "critical", kind: "TT sin anclaje (sin parent_hu_id ni epic_id)", id: t.id, file: path.relative(root, t._file) });
+    } else if (!t.epic && !t.epic_id) {
+      findings.push({ severity: "critical", kind: "TT sin anclaje (sin parent_hu_id, epic ni epic_id)", id: t.id, file: path.relative(root, t._file) });
     }
     for (const dep of t.dependencies || []) {
-      if (!huIds.has(dep) && !tts.some(x => x.id === dep)) {
+      if (!huIds.has(dep) && !ttIds.has(dep)) {
         findings.push({ severity: "high", kind: "referencia rota en dependencies", id: t.id, ref: dep });
       }
     }

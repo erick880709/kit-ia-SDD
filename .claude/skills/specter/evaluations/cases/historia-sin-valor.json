@@ -17,7 +17,7 @@
       "expected_state": "NEEDS_REFINEMENT",
       "data": {
         "id": "HU-10",
-        "type": "historia_usuario",
+        "type": "Historia de Usuario",
         "title": "Exportar datos",
         "status": "ready",
         "schema_version": "0.1.0",
@@ -38,7 +38,7 @@
         "acceptance_criteria": [
           {
             "id": "CA1",
-            "scenario": "Dado un contexto, cuando act?a, entonces observa el resultado.",
+            "scenario": "Dado un contexto, cuando actúa, entonces observa el resultado.",
             "negative": false
           }
         ],
@@ -49,7 +49,7 @@
           "RF-009"
         ],
         "dependencies": [],
-        "priority": "media",
+        "priority": "Media",
         "points": 5
       }
     }

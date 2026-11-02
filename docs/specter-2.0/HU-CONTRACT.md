@@ -16,7 +16,7 @@ implementabilidad) la evalúa el Quality Gate.
 | Campo | Tipo | Notas |
 |---|---|---|
 | `id` | string | Patrón `^[A-Za-z0-9][A-Za-z0-9._-]*$` (ej. `HU-01`) |
-| `type` | const `historia_usuario` | Discriminador del artefacto |
+| `type` | const `Historia de Usuario` | Discriminador del artefacto |
 | `title` | string no vacío | Título corto |
 | `status` | enum | `draft` \| `ready` \| `needs_refinement` \| `blocked` |
 | `schema_version` | const `0.1.0` | Versión del esquema |
@@ -27,7 +27,8 @@ implementabilidad) la evalúa el Quality Gate.
 
 | Campo | Tipo | Notas |
 |---|---|---|
-| `epic_id` | string \| null | Épica de origen (opcional si hay `requirement_ids`) |
+| `epic` | string \| null | Épica de origen (compatible con cupido y Specter 1.0) |
+| `epic_id` | string \| null | Alias de `epic` (aceptado; usar `epic` como canónico) |
 | `requirement_ids` | string[] | RF/RNF/RT de origen (puede estar vacío) |
 | `source_artifact_ids` | string[] | Artefactos fuente (reqs de `epicureo`, eventos de `storming`, etc.) |
 
@@ -68,7 +69,7 @@ implementabilidad) la evalúa el Quality Gate.
 
 | Campo | Tipo | Notas |
 |---|---|---|
-| `priority` | enum | `alta` \| `media` \| `baja` |
+| `priority` | enum | `Alta` \| `Media` \| `Baja` |
 | `points` | enum | `1,2,3,5,8,13` (Fibonacci) |
 | `quality_score` | number 0–100 | Lo asigna el gate, no el autor |
 | `dependencies` | string[] | Ids de HU/TT de los que depende |
@@ -79,9 +80,9 @@ implementabilidad) la evalúa el Quality Gate.
 
 | 1.0 (frontmatter) | 2.0 |
 |---|---|
-| `type: Historia de Usuario` | `type: historia_usuario` |
-| `epic: CLAVE` | `epic_id: CLAVE` |
-| `priority: Alta` | `priority: alta` |
+| `type: Historia de Usuario` | `type: Historia de Usuario` (sin cambio) |
+| `epic: CLAVE` | `epic: CLAVE` (conservado; `epic_id` como alias) |
+| `priority: Alta` | `priority: Alta` (sin cambio) |
 | `points: 5` | `points: 5` |
 | (no existía) | `requirement_ids`, `user_story`, `scope`, `business_rules`, `acceptance_criteria[]`, `dependencies`, `nfr_references`, `test_references`, `assumptions`, `open_questions`, `quality_score`, versionado |
 
@@ -94,7 +95,7 @@ históricos no se renumeran: los nuevos continúan la secuencia. Detalle complet
 ```yaml
 ---
 id: HU-01
-type: historia_usuario
+type: Historia de Usuario
 title: "Iniciar sesión con usuario y contraseña"
 user_story:
   role: "usuario registrado"
@@ -107,7 +108,7 @@ acceptance_criteria:
     negative: false
     requirement_ids: ["RF-001"]
 status: ready
-priority: alta
+priority: Alta
 points: 5
 schema_version: "0.1.0"
 artifact_version: "1"

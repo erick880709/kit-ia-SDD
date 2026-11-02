@@ -4,4 +4,5 @@
 import "../.claude/skills/specter/tests/schema.test.mjs";
 import "../.claude/skills/specter/tests/quality-gate.test.mjs";
 import "../.claude/skills/specter/tests/traceability.test.mjs";
+import "../.claude/skills/specter/tests/compat.test.mjs";
 import "../.claude/skills/specter/evaluations/evaluate.test.mjs";

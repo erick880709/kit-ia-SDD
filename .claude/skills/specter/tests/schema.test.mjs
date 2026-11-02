@@ -22,8 +22,17 @@ test("los enums del motor coinciden con los esquemas", () => {
   assert.deepEqual(CONTRACTS.user_story.enums.status, hu.$defs.status.enum);
   assert.deepEqual(CONTRACTS.user_story.enums.priority, hu.$defs.priority.enum);
   assert.deepEqual(CONTRACTS.user_story.enums.points, hu.$defs.points.enum);
-  assert.equal(CONTRACTS.user_story.discriminator, "historia_usuario");
-  assert.equal(CONTRACTS.technical_task.discriminator, "tarea_tecnica");
+  assert.equal(CONTRACTS.user_story.discriminator, "Historia de Usuario");
+  assert.equal(CONTRACTS.technical_task.discriminator, "Tarea Técnica");
+});
+
+test("el contrato conserva los campos que lee cupido (epic, priority capitalizada)", () => {
+  const hu = loadSchema("user-story.schema.json");
+  const tt = loadSchema("technical-task.schema.json");
+  assert.ok(hu.properties.epic, "HU debe declarar epic");
+  assert.ok(tt.properties.epic, "TT debe declarar epic");
+  assert.deepEqual(hu.$defs.priority.enum, ["Alta", "Media", "Baja"]);
+  assert.ok(hu.properties.points && hu.properties.priority);
 });
 
 test("objeto vacío produce errores estructurales pero no bloqueos", () => {
@@ -34,13 +43,13 @@ test("objeto vacío produce errores estructurales pero no bloqueos", () => {
 
 test("tipo incorrecto y enum inválido bloquean", () => {
   const { blocks } = structuralProblems("user_story", { type: "tarea_tecnica", status: "raro" });
-  assert.ok(blocks.some(b => b.rule === "discriminator"));
+  assert.ok(blocks.some(b => b.rule === "const"));
   assert.ok(blocks.some(b => b.rule === "enum"));
 });
 
-test("criterio sin resultado observable bloquea", () => {
-  const { blocks } = structuralProblems("user_story", {
+test("criterio sin resultado observable es un error estructural (needs_refinement)", () => {
+  const { errors } = structuralProblems("user_story", {
     acceptance_criteria: [{ id: "CA1" }],
   });
-  assert.ok(blocks.some(b => b.rule === "criterion"));
+  assert.ok(errors.some(e => e.rule === "anyOf"));
 });

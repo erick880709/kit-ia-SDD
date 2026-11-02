@@ -30,8 +30,8 @@ test("los casos dorados coinciden con el veredicto del gate (sin falsos positivo
   const metrics = computeMetrics(collected);
   assert.equal(metrics.false_acceptance_rate.value, 0);
   assert.equal(metrics.false_rejection_rate.value, 0);
-  assert.equal(metrics.duplicate_detection_rate.value, 1);
-  assert.equal(metrics.ambiguity_detection_rate.value, 1);
+  assert.equal(metrics.duplicate_detection.value, 1);
+  assert.equal(metrics.ambiguity_detection.value, 1);
   assert.equal(metrics.requirement_coverage.value, 1);
 });
 

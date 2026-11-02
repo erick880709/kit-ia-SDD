@@ -1,9 +1,9 @@
 {
   "id": "requisitos-contradictorios",
   "name": "Requerimientos contradictorios",
-  "description": "Contradicci?n se manifiesta como criterios duplicados: el gate bloquea.",
+  "description": "Contradicción se manifiesta como criterios duplicados: el gate bloquea.",
   "input": {
-    "epic": "El alta debe permitir y a la vez impedir la edici?n posterior."
+    "epic": "El alta debe permitir y a la vez impedir la edición posterior."
   },
   "requirements": [
     "RF-004"
@@ -17,7 +17,7 @@
       "expected_state": "BLOCKED",
       "data": {
         "id": "HU-03",
-        "type": "historia_usuario",
+        "type": "Historia de Usuario",
         "title": "Editar registro",
         "status": "ready",
         "schema_version": "0.1.0",
@@ -53,7 +53,7 @@
           "RF-004"
         ],
         "dependencies": [],
-        "priority": "media",
+        "priority": "Media",
         "points": 5
       }
     }

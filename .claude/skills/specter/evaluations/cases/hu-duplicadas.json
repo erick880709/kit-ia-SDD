@@ -1,7 +1,7 @@
 {
   "id": "hu-duplicadas",
   "name": "HU duplicadas",
-  "description": "Dos HU con el mismo t?tulo: el harness detecta la duplicidad.",
+  "description": "Dos HU con el mismo título: el harness detecta la duplicidad.",
   "input": {
     "epic": "Consultar movimientos."
   },
@@ -17,7 +17,7 @@
       "expected_state": "READY",
       "data": {
         "id": "HU-08a",
-        "type": "historia_usuario",
+        "type": "Historia de Usuario",
         "title": "Consultar movimientos",
         "status": "ready",
         "schema_version": "0.1.0",
@@ -39,7 +39,7 @@
         "acceptance_criteria": [
           {
             "id": "CA1",
-            "scenario": "Dado un contexto, cuando act?a, entonces observa el resultado.",
+            "scenario": "Dado un contexto, cuando actúa, entonces observa el resultado.",
             "negative": false
           }
         ],
@@ -50,7 +50,7 @@
           "RF-008"
         ],
         "dependencies": [],
-        "priority": "media",
+        "priority": "Media",
         "points": 5
       }
     },
@@ -60,7 +60,7 @@
       "expected_state": "READY",
       "data": {
         "id": "HU-08b",
-        "type": "historia_usuario",
+        "type": "Historia de Usuario",
         "title": "Consultar movimientos",
         "status": "ready",
         "schema_version": "0.1.0",
@@ -82,7 +82,7 @@
         "acceptance_criteria": [
           {
             "id": "CA1",
-            "scenario": "Dado un contexto, cuando act?a, entonces observa el resultado.",
+            "scenario": "Dado un contexto, cuando actúa, entonces observa el resultado.",
             "negative": false
           }
         ],
@@ -93,7 +93,7 @@
           "RF-008"
         ],
         "dependencies": [],
-        "priority": "media",
+        "priority": "Media",
         "points": 5
       }
     }

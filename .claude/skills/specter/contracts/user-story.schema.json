@@ -8,7 +8,8 @@
   "required": ["id", "type", "title", "status", "schema_version", "artifact_version", "created_at", "updated_at"],
   "properties": {
     "id": { "$ref": "#/$defs/id" },
-    "type": { "const": "historia_usuario" },
+    "type": { "const": "Historia de Usuario" },
+    "epic": { "$ref": "#/$defs/idOrNull" },
     "epic_id": { "$ref": "#/$defs/idOrNull" },
     "requirement_ids": { "$ref": "#/$defs/refList" },
     "title": { "$ref": "#/$defs/text" },
@@ -83,7 +84,8 @@
       "enum": ["draft", "ready", "needs_refinement", "blocked"]
     },
     "priority": {
-      "enum": ["alta", "media", "baja"]
+      "description": "Prioridad con mayúscula inicial, compatible con cupido (effort-estimator) y Specter 1.0.",
+      "enum": ["Alta", "Media", "Baja"]
     },
     "points": {
       "enum": [1, 2, 3, 5, 8, 13]

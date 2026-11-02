@@ -5,7 +5,7 @@ import { validate } from "../scripts/engine.mjs";
 function readyHu(overrides = {}) {
   return {
     id: "HU-01",
-    type: "historia_usuario",
+    type: "Historia de Usuario",
     title: "Iniciar sesión",
     status: "ready",
     schema_version: "0.1.0",
@@ -24,7 +24,7 @@ function readyHu(overrides = {}) {
     exceptions: ["Cuenta bloqueada"],
     requirement_ids: ["RF-001"],
     dependencies: [],
-    priority: "alta",
+    priority: "Alta",
     points: 5,
     ...overrides,
   };
@@ -33,7 +33,7 @@ function readyHu(overrides = {}) {
 function readyTt(overrides = {}) {
   return {
     id: "TT-01",
-    type: "tarea_tecnica",
+    type: "Tarea Técnica",
     title: "Migrar esquema de usuarios",
     parent_hu_id: "HU-01",
     status: "ready",

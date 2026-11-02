@@ -16,7 +16,7 @@ documentada puede relacionarse con la épica (`parent_hu_id: null` + `epic_id` p
 | Campo | Tipo | Notas |
 |---|---|---|
 | `id` | string | Patrón `^[A-Za-z0-9][A-Za-z0-9._-]*$` (ej. `TT-01`) |
-| `type` | const `tarea_tecnica` | Discriminador del artefacto |
+| `type` | const `Tarea Técnica` | Discriminador del artefacto |
 | `title` | string no vacío | Título corto |
 | `parent_hu_id` | string \| null | HU padre (o null solo si es habilitador de épica) |
 | `status` | enum | `draft` \| `ready` \| `needs_refinement` \| `blocked` |
@@ -45,10 +45,11 @@ documentada puede relacionarse con la épica (`parent_hu_id: null` + `epic_id` p
 
 | Campo | Tipo | Notas |
 |---|---|---|
-| `epic_id` | string \| null | Épica de origen |
+| `epic` | string \| null | Épica de origen (compatible con cupido y Specter 1.0) |
+| `epic_id` | string \| null | Alias de `epic` (usar `epic` como canónico) |
 | `dependencies` | string[] | Ids de HU/TT previas |
 | `source_artifact_ids` | string[] | Artefactos fuente |
-| `priority` | enum | `alta` \| `media` \| `baja` |
+| `priority` | enum | `Alta` \| `Media` \| `Baja` |
 | `points` | enum | `1,2,3,5,8,13` |
 | `quality_score` | number 0–100 | Lo asigna el gate |
 
@@ -64,8 +65,8 @@ documentada puede relacionarse con la épica (`parent_hu_id: null` + `epic_id` p
 
 | 1.0 | 2.0 |
 |---|---|
-| `type: Tarea Técnica` | `type: tarea_tecnica` |
-| `epic: CLAVE` | `epic_id: CLAVE` |
+| `type: Tarea Técnica` | `type: Tarea Técnica` (sin cambio) |
+| `epic: CLAVE` | `epic: CLAVE` (conservado; `epic_id` como alias) |
 | "Criterios de Done" | `definition_of_done[]` |
 | "Dependencias" (texto libre) | `dependencies[]` (ids) |
 | "Descripción" (texto libre) | `technical_objective`, `implementation_steps[]`, `implementation_scope` |
@@ -76,7 +77,7 @@ documentada puede relacionarse con la épica (`parent_hu_id: null` + `epic_id` p
 ```yaml
 ---
 id: TT-01
-type: tarea_tecnica
+type: Tarea Técnica
 parent_hu_id: HU-01
 title: "Diseñar y migrar el esquema de usuarios"
 technical_objective: "Crear la tabla de usuarios con las columnas mínimas para el login."

@@ -1,9 +1,9 @@
 {
   "id": "hu-demasiado-grande",
   "name": "HU demasiado grande",
-  "description": "HU con 13 puntos no es estimable como peque?a: refinamiento.",
+  "description": "HU con 13 puntos no es estimable como pequeña: refinamiento.",
   "input": {
-    "epic": "Plataforma completa de facturaci?n."
+    "epic": "Plataforma completa de facturación."
   },
   "requirements": [
     "RF-007"
@@ -17,8 +17,8 @@
       "expected_state": "NEEDS_REFINEMENT",
       "data": {
         "id": "HU-07",
-        "type": "historia_usuario",
-        "title": "Facturaci?n completa",
+        "type": "Historia de Usuario",
+        "title": "Facturación completa",
         "status": "ready",
         "schema_version": "0.1.0",
         "artifact_version": "1",
@@ -39,7 +39,7 @@
         "acceptance_criteria": [
           {
             "id": "CA1",
-            "scenario": "Dado un contexto, cuando act?a, entonces observa el resultado.",
+            "scenario": "Dado un contexto, cuando actúa, entonces observa el resultado.",
             "negative": false
           }
         ],
@@ -50,7 +50,7 @@
           "RF-007"
         ],
         "dependencies": [],
-        "priority": "media",
+        "priority": "Media",
         "points": 13
       }
     }

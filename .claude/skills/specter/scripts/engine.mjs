@@ -7,25 +7,26 @@
 // de la puntuación. Determinista: mismos artefactos → mismos resultados.
 import fs from "node:fs";
 import { parse as parseYaml } from "yaml";
+import { validateStory as schemaValidateStory, validateTask as schemaValidateTask } from "../contracts/specter-schemas.validate.mjs";
 
 // ───────────────────────────── contratos (espejo de los schemas) ─────────────────────────────
 
 export const CONTRACTS = {
   user_story: {
     required: ["id", "type", "title", "status", "schema_version", "artifact_version", "created_at", "updated_at"],
-    discriminator: "historia_usuario",
+    discriminator: "Historia de Usuario",
     enums: {
       status: ["draft", "ready", "needs_refinement", "blocked"],
-      priority: ["alta", "media", "baja"],
+      priority: ["Alta", "Media", "Baja"],
       points: [1, 2, 3, 5, 8, 13],
     },
   },
   technical_task: {
     required: ["id", "type", "title", "parent_hu_id", "status", "schema_version", "artifact_version", "created_at", "updated_at"],
-    discriminator: "tarea_tecnica",
+    discriminator: "Tarea Técnica",
     enums: {
       status: ["draft", "ready", "needs_refinement", "blocked"],
-      priority: ["alta", "media", "baja"],
+      priority: ["Alta", "Media", "Baja"],
       points: [1, 2, 3, 5, 8, 13],
     },
   },
@@ -54,31 +55,19 @@ function isId(v) {
   return typeof v === "string" && /^[A-Za-z0-9][A-Za-z0-9._-]*$/.test(v);
 }
 
-// ───────────────────────────── validación estructural ─────────────────────────────
+// ───────────────────────────── validación estructural (JSON Schema real) ─────────────────────────────
 
 export function structuralProblems(kind, obj) {
-  const c = CONTRACTS[kind];
+  const validateFn = kind === "user_story" ? schemaValidateStory : schemaValidateTask;
+  const ok = validateFn(obj ?? {});
   const errors = [];
   const blocks = [];
-  for (const field of c.required) {
-    const v = obj?.[field];
-    if (v === undefined || v === null || (typeof v === "string" && v.trim() === "")) {
-      errors.push({ rule: "required", field, message: `falta el campo obligatorio ${field}` });
-    }
-  }
-  if (obj?.type !== undefined && obj.type !== c.discriminator) {
-    blocks.push({ rule: "discriminator", message: `type debe ser "${c.discriminator}" (recibido: ${JSON.stringify(obj.type)})` });
-  }
-  for (const [field, values] of Object.entries(c.enums)) {
-    if (obj?.[field] !== undefined && !values.includes(obj[field])) {
-      blocks.push({ rule: "enum", field, message: `${field} inválido: ${JSON.stringify(obj[field])} (esperado: ${values.join(", ")})` });
-    }
-  }
-  if (kind === "user_story" && Array.isArray(obj?.acceptance_criteria)) {
-    for (const ca of obj.acceptance_criteria) {
-      if (!isNonEmptyString(ca?.id) || !(isNonEmptyString(ca?.scenario) || isNonEmptyString(ca?.then))) {
-        blocks.push({ rule: "criterion", message: "criterio de aceptación sin id o sin resultado observable (scenario/then)" });
-      }
+  if (!ok) {
+    for (const e of validateFn.errors || []) {
+      const message = `${e.instancePath || "/"} ${e.message}`;
+      // Violaciones del discriminador (const) o de vocabulario (enum) → contradicción: bloquean.
+      if (e.keyword === "const" || e.keyword === "enum") blocks.push({ rule: e.keyword, message });
+      else errors.push({ rule: e.keyword, message });
     }
   }
   return { errors, blocks };
@@ -118,8 +107,8 @@ const HU_RULES = [
 
   // Trazabilidad (20)
   rule("hu_trace_origin", "trazabilidad", 12, true,
-    o => isNonEmptyString(o.epic_id) || isNonEmptyArray(o.requirement_ids),
-    "origen presente (epic_id o requirement_ids)"),
+    o => isNonEmptyString(o.epic) || isNonEmptyString(o.epic_id) || isNonEmptyArray(o.requirement_ids),
+    "origen presente (epic, epic_id o requirement_ids)"),
   rule("hu_trace_req_ids", "trazabilidad", 8, true,
     o => !Array.isArray(o.requirement_ids) || o.requirement_ids.every(isId),
     "requirement_ids con formato de id válido"),
@@ -166,8 +155,8 @@ const TT_RULES = [
 
   // Trazabilidad (20)
   rule("tt_trace_parent", "trazabilidad", 14, true,
-    o => isNonEmptyString(o.parent_hu_id) || isNonEmptyString(o.epic_id),
-    "anclaje presente (parent_hu_id o epic_id)"),
+    o => isNonEmptyString(o.parent_hu_id) || isNonEmptyString(o.epic) || isNonEmptyString(o.epic_id),
+    "anclaje presente (parent_hu_id, epic o epic_id)"),
   rule("tt_trace_dep_ids", "trazabilidad", 6, true,
     o => !Array.isArray(o.dependencies) || o.dependencies.every(isId),
     "dependencies con formato de id válido"),
@@ -205,8 +194,8 @@ function blockingRules(kind, obj) {
   if (Array.isArray(obj.dependencies) && obj.dependencies.includes(id)) {
     blocks.push({ rule: "block_self_dependency", message: `dependencia hacia sí mismo (${id})` });
   }
-  if (kind === "technical_task" && !isNonEmptyString(obj.parent_hu_id) && !isNonEmptyString(obj.epic_id)) {
-    blocks.push({ rule: "block_no_anchor", message: "TT sin anclaje: parent_hu_id y epic_id ausentes" });
+  if (kind === "technical_task" && !isNonEmptyString(obj.parent_hu_id) && !isNonEmptyString(obj.epic) && !isNonEmptyString(obj.epic_id)) {
+    blocks.push({ rule: "block_no_anchor", message: "TT sin anclaje: parent_hu_id, epic y epic_id ausentes" });
   }
   return blocks;
 }
@@ -243,11 +232,35 @@ export function validate(kind, obj) {
   else if (mandatoryPassed) state = "READY";
   else state = "NEEDS_REFINEMENT";
 
+  const failed = results.filter(r => !r.passed);
+  const evidence = [
+    ...blocks.map(b => b.message),
+    ...errors.map(e => e.message),
+    ...failed.map(r => r.evidence),
+  ];
+  const recommendations = [
+    ...blocks.map(b => `Resuelve: ${b.message}`),
+    ...failed.map(r => `Corrige [${r.dimension}]: ${r.evidence}`),
+  ];
+  let severity = "none";
+  if (blocks.length) severity = "critical";
+  else if (errors.length) severity = "high";
+  else if (failed.some(r => r.mandatory)) severity = "medium";
+  else if (failed.length) severity = "low";
+
   return {
     kind,
     id: obj?.id ?? "(sin id)",
-    score,
+    artifact_id: obj?.id ?? "(sin id)",
+    schema_version: obj?.schema_version ?? null,
+    status: state,
     state,
+    score,
+    severity,
+    rules_passed: results.filter(r => r.passed).map(r => r.id),
+    rules_failed: failed.map(r => r.id),
+    evidence,
+    recommendations,
     structuralErrors: errors,
     rules: results,
     blocks,

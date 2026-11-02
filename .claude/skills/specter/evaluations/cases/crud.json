@@ -1,9 +1,9 @@
 {
   "id": "crud",
   "name": "Funcionalidad CRUD",
-  "description": "CRUD: HU de creaci?n y TT de migraci?n, ambas listas.",
+  "description": "CRUD: HU de creación y TT de migración, ambas listas.",
   "input": {
-    "epic": "Gesti?n de productos."
+    "epic": "Gestión de productos."
   },
   "requirements": [
     "RF-006"
@@ -17,7 +17,7 @@
       "expected_state": "READY",
       "data": {
         "id": "HU-05",
-        "type": "historia_usuario",
+        "type": "Historia de Usuario",
         "title": "Crear producto",
         "status": "ready",
         "schema_version": "0.1.0",
@@ -39,7 +39,7 @@
         "acceptance_criteria": [
           {
             "id": "CA1",
-            "scenario": "Dado un contexto, cuando act?a, entonces observa el resultado.",
+            "scenario": "Dado un contexto, cuando actúa, entonces observa el resultado.",
             "negative": false
           }
         ],
@@ -50,7 +50,7 @@
           "RF-006"
         ],
         "dependencies": [],
-        "priority": "media",
+        "priority": "Media",
         "points": 5
       }
     },
@@ -60,15 +60,15 @@
       "expected_state": "READY",
       "data": {
         "id": "TT-05",
-        "type": "tarea_tecnica",
-        "title": "Tarea t?cnica",
+        "type": "Tarea Técnica",
+        "title": "Tarea técnica",
         "parent_hu_id": "HU-05",
         "status": "ready",
         "schema_version": "0.1.0",
         "artifact_version": "1",
         "created_at": "2026-11-02T15:00:00Z",
         "updated_at": "2026-11-02T15:00:00Z",
-        "technical_objective": "Objetivo t?cnico.",
+        "technical_objective": "Objetivo técnico.",
         "implementation_steps": [
           "Paso 1"
         ],
